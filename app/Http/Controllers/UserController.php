@@ -17,7 +17,7 @@ class UserController extends Controller
             return response()->json(User::find($id));
         }
         return response()
-            ->json(['error'=>'Usuário não encontrado']);
+            ->json(['error'=>'Usuário não encontrado'],404);
     }
     
 
@@ -27,21 +27,7 @@ class UserController extends Controller
             ->json(User::create($data));
     }
 
-
-    public function delete($id,Request $request){
-        $user = User::find($id);
-        
-        if($user){
-            $user->delete();
-            return response()
-                ->json(['success' => 'Deletado']);
-        }
-
-        return response()
-            ->json(['error' => 'Não deletado']);
-    }
-
-
+    
     public function update($id,Request $request){
         $user = User::find($id);
         if($user){
@@ -50,6 +36,22 @@ class UserController extends Controller
                 ->json($user);
         }
         return response()
-            ->json(['error'=>'Usuário não encontrado']);
+            ->json(['error'=>'Usuário não encontrado'],404);
+    }
+
+    
+    public function delete($id,Request $request){
+        $user = User::find($id);
+        
+        if($user){
+            $user->delete();
+            return response()
+            ->json(['success' => 'Deletado']);
+        }
+        
+        return response()
+        ->json(['error' => 'Usuário não encontrado'],404);
     }
 }
+
+
