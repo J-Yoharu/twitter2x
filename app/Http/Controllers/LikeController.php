@@ -19,12 +19,12 @@ class LikeController extends Controller
                 ->json($like);
         }
         return response()
-            ->json(['error'=>'Não encontrado'],404);
+            ->json(['error'=>'Like não encontrado'],404);
     }
 
     public function store(Request $request){
         Like::create($request->all());
-        return response()->json(['success'=>'Like com sucesso']);
+        return response()->json(['success'=>'criado o like com sucesso']);
     }
 
     public function delete($id){

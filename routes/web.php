@@ -46,8 +46,8 @@ Route::prefix('comments')->group(function(){
 
     Route::get('/',"CommentController@index");
     Route::get('/{id}',"CommentController@show");
-    Route::post('/',"CommentControler@store");
-    Route::put('/{id}',"CommentController@update");
+    Route::post('/',"CommentController@store");
+    Route::put('/{id}/edit',"CommentController@update");
     Route::delete('/{id}/delete',"CommentController@delete");
 
 });

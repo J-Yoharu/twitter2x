@@ -14,7 +14,8 @@ class UserController extends Controller
     public function show($id){
         $user = User::find($id);
         if($user){
-            return response()->json(User::find($id));
+            return response()
+                ->json(User::find($id));
         }
         return response()
             ->json(['error'=>'Usuário não encontrado'],404);
@@ -22,9 +23,9 @@ class UserController extends Controller
     
 
     public function store(Request $request){
-        $data = $request->all();
+        User::create($request->all());
         return response() 
-            ->json(User::create($data));
+            ->json(['success'=>'criado o usuário com sucesso']);
     }
 
     
