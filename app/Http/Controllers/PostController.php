@@ -8,7 +8,8 @@ use App\Models\Post;
 class postController extends Controller
 {
         public function index(){
-            return response()->json(Post::all()); 
+            // dd($post[0]->comments->count());
+            return response()->json( Post::with('user','comments.user','likes')->get()); 
         }
 
         public function show($id){

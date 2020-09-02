@@ -7,7 +7,7 @@ use App\Models\Comment;
 class CommentController extends Controller
 {
     public function index(){
-        return response()->json(Comment::all());
+        return response()->json(Comment::with('user','post')->get());
     }
     
     public function show($id){
