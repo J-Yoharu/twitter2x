@@ -32,8 +32,8 @@ class postController extends Controller
         }
         
         public function store(Request $request){
-            Post::create($request->all());
-            return response()->json(['success'=>'criado o post com sucesso']);
+            $post = Post::create($request->all());
+            return response()->json($post);
 
         }
         public function update($id,Request $request){

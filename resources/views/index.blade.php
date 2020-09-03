@@ -21,16 +21,16 @@
                   <img src={{session('user')->image}} alt="profile photo">
                 </div>
                 <div class="tweet-body">
-                  <form action="{{ route('post.store') }}" method="post" enctype="multipart/form-data">
+                  {{-- <form action="{{ route('post.store') }}" method="post" enctype="multipart/form-data"> --}}
                       @csrf
                       <input type="hidden" name="user_id" value={{session('user')->id}}>
 
                       <textarea rows="2" id="tweetText" placeholder="Whats happening?" name="post"></textarea> 
                       <hr>
                       <div class="tweet-button">
-                        <button class="btn btn-primary" type="submit">Tweet</button>
+                        <button class="btn btn-primary" onclick="postStore({{session('user')->id}})">Tweet</button>
                       </div>
-                  </form>
+                  {{-- </form> --}}
                 </div>
               </div>
 
@@ -94,7 +94,8 @@
  
   @push('scripts')
       <script>
-
+        
+        var post = {!!$posts!!};
         // textarea listener function
         $("#tweetText").on('keypress',function(e) {
           if(e.which == 13) {
@@ -103,13 +104,23 @@
           }
         });
 
-        function enviar(){
-          let twitter = $("#tweetText");
-          console.log(twitter.val());
+        async function postStore(currentUser){
+          let postText = $("#tweetText");
+
+          let postRequest = await axios.post('http://twitter2x.test/posts', {
+            post:postText.val(), 
+            user_id: currentUser,
+            image_post:null
+          });
+          // Object.defineProperty(post, "push", {
+          //   get : function () {console.log("ADICIONOU!!!");}
+          // });
+          post.push(postRequest.data);
+
 
           // limpando
-          twitter.val("");
-          twitter.attr("rows","2");
+          postText.val("");
+          postText.attr("rows","2");
         }
       </script>
   @endpush

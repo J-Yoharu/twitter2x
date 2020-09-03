@@ -9,7 +9,7 @@ class TwitterController extends Controller
     public function index(Request $request){
 
         if(session('user')){
-            $posts = Post::with('user')->withCount('comments as comments','likes as likes')->get();
+            $posts = Post::with('user')->withCount('comments as comments','likes as likes')->orderBy('created_at','desc')->get();
             return view('index',['posts' => $posts]);
         }
         
