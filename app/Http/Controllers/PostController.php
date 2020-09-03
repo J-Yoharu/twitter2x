@@ -4,16 +4,25 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use DB;
 
 class postController extends Controller
 {
         public function index(){
-            // dd($post[0]->comments->count());
-            return response()->json( Post::with('user','comments.user','likes')->get()); 
+            //log DB.
+            // DB::enableQueryLog();
+            // $queries = DB::getQueryLog(Post::with('user')->withCount('comments as comments','likes as likes')->get());
+            // dd($queries);
+            return response()->json( Post::with('user')->withCount('comments as comments','likes as likes')->get()); 
+            
         }
 
         public function show($id){
-            $post = Post::find($id);
+            // DB::enableQueryLog();
+            // $queries = DB::getQueryLog(Post::with('user')->withCount('comments as comments','likes as likes')->find($id));
+            // dd($queries);
+         
+            $post = Post::with('user')->withCount('comments as comments','likes as likes')->find($id);
             if($post){
                 return response()
                     ->json($post);

@@ -30,6 +30,7 @@ class LikeController extends Controller
     public function delete($id){
         $like= Like::find($id);
         if($like){
+            $like->delete();
             return response()
                 ->json(['success'=>'Deletado com sucesso']);
         }

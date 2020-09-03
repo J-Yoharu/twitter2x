@@ -12,17 +12,26 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/home','TwitterController@index')->name('index');
+
+
+Route::prefix('login')->group(function(){
+    Route::get('/','LoginController@index')->name('login.index');
+    Route::get('/register','LoginController@register')->name('login.register');
+    Route::post('/','LoginController@auth')->name('login.auth');
+});
 
 
 Route::prefix('users')->group(function(){
 
-    Route::get('/','UserController@index');
-    Route::get('/{id}','UserController@show');
-    Route::post('/','UserController@store');
-    Route::put('/{id}/edit','UserController@update');
-    Route::delete('/{id}/delete','UserController@delete');
+    Route::get('/','UserController@index')->name('user.index');
+    Route::get('/{id}','UserController@show')->name('user.show');
+    Route::post('/','UserController@store')->name('user.store');
+    Route::put('/{id}/edit','UserController@update')->name('user.update');
+    Route::delete('/{id}/delete','UserController@delete')->name('user.delete');
 
 });
+
 
 Route::prefix('posts')->group(function(){
     Route::get('/',"PostController@index");
@@ -33,6 +42,7 @@ Route::prefix('posts')->group(function(){
 
 });
 
+
 Route::prefix('likes')->group(function(){
 
     Route::get('/',"LikeController@index");
@@ -41,6 +51,7 @@ Route::prefix('likes')->group(function(){
     Route::delete('/{id}/delete',"LikeController@delete");
 
 });
+
 
 Route::prefix('comments')->group(function(){
 
