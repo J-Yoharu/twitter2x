@@ -36,31 +36,32 @@ Route::prefix('users')->group(function(){
 
 
 Route::prefix('posts')->group(function(){
-    Route::get('/',"PostController@index");
-    Route::get('/{id}','PostController@show');
-    Route::post('/','PostController@store');
-    Route::put('/{id}/edit','PostController@update');
-    Route::delete('/{id}/delete','PostController@delete');
+    Route::get('/',"PostController@index")->name('post.index');
+    Route::get('/{id}','PostController@show')->name('post.show');
+    Route::post('/','PostController@store')->name('post.store');
+    Route::put('/{id}/edit','PostController@update')->name('post.update');
+    Route::delete('/{id}/delete','PostController@delete')->name('post.delete');
+
 
 });
 
 
 Route::prefix('likes')->group(function(){
 
-    Route::get('/',"LikeController@index");
-    Route::get('/{id}',"LikeController@show");
-    Route::post('/',"LikeController@store");
-    Route::delete('/{id}/delete',"LikeController@delete");
+    Route::get('/',"LikeController@index")->name('like.index');
+    Route::get('/{id}',"LikeController@show")->name('like.show');
+    Route::post('/',"LikeController@store")->name('like.store');
+    Route::delete('/{id}/delete',"LikeController@delete")->name('like.delete');
 
 });
 
 
 Route::prefix('comments')->group(function(){
 
-    Route::get('/',"CommentController@index");
-    Route::get('/{id}',"CommentController@show");
-    Route::post('/',"CommentController@store");
-    Route::put('/{id}/edit',"CommentController@update");
-    Route::delete('/{id}/delete',"CommentController@delete");
+    Route::get('/',"CommentController@index")->name('comment.index');
+    Route::get('/{id}',"CommentController@show")->name('comment.show');
+    Route::post('/',"CommentController@store")->name('comment.store');
+    Route::put('/{id}/edit',"CommentController@update")->name('comment.update');
+    Route::delete('/{id}/delete',"CommentController@delete")->name('comment.delete');
 
 });

@@ -13,7 +13,7 @@ class postController extends Controller
             // DB::enableQueryLog();
             // $queries = DB::getQueryLog(Post::with('user')->withCount('comments as comments','likes as likes')->get());
             // dd($queries);
-            return response()->json( Post::with('user')->withCount('comments as comments','likes as likes')->get()); 
+            return response()->json( Post::with('user','likes')->withCount('comments as comments')->get()); 
             
         }
 
@@ -22,7 +22,7 @@ class postController extends Controller
             // $queries = DB::getQueryLog(Post::with('user')->withCount('comments as comments','likes as likes')->find($id));
             // dd($queries);
          
-            $post = Post::with('user')->withCount('comments as comments','likes as likes')->find($id);
+            $post = Post::with('user','likes','comments')->withCount('comments as comments','likes as likes')->find($id);
             if($post){
                 return response()
                     ->json($post);

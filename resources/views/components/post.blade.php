@@ -10,7 +10,7 @@
             <span>·{{$hour}}</span> 
         
             <div class="ml-auto">
-                <a href="{{ route('posts.edit', $id) }}">Excluir</a>
+                {{-- <a href="{{ route('posts.edit', $id) }}">Excluir</a> --}}
             </div>
  
 
@@ -22,11 +22,11 @@
             </p>
         </div>
         <div class="post-react">
-            <div class="react" onclick="like({{$id}})">
-                <i class="fa fa-2x fa-thumbs-up"> </i> <span> {{$likes== '0' ? '':$likes}} </span>
+            <div class="react" onclick="like({{$id}},{{$userId}})">
+                <i class="fa fa-2x fa-thumbs-up"> </i> <span> {{$likes== null ? 0:$likes}} </span>
             </div>
-            <div class="react" onclick="comment()">
-                <i class="fa fa-2x fa-comment"> </i> <span> {{$comments}} </span>
+            <div class="react" onclick="comment({{$id}},{{$userId}})">
+                <i class="fa fa-2x fa-comment"> </i> <span> {{$comments == null ? 0:$comments}} </span>
             </div>
         </div>
     </div>
@@ -86,11 +86,20 @@
 
 @push('scripts')
     <script>
-        function like(id){
-          console.log(id);
+        async function like(postId,userId){
+            
+            let request = await axios.get(`http://twitter2x.test/posts/${postId}`);
+            console.log(request.data.likes)
+            let validation = null;
+            request.data.likes.forEach(like => {
+                if(like.user_id == userId ){
+                    return validation = "yes";
+                }
+            });
+            console.log(validation);
+           //let like = await axios.post('http://twitter2x.test/likes', { post_id: postId,user_id: userId});
+
         }
-        function comment(){
-            console.log("comentou");
-        }
+     
     </script>
 @endpush

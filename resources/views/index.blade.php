@@ -16,18 +16,16 @@
             <div class="col-md-8 p-0 border-left border-right">
 
               {{-- tweet --}}
-                {{session()->get('user')->name}}
               <div style="width:100%" class="content-post">
                 <div class="post-img">
-                  <img src={{session()->get('user')->image}} alt="profile photo">
+                  <img src={{session('user')->image}} alt="profile photo">
                 </div>
                 <div class="tweet-body">
-                  <form action="{{ route('index') }}" method="post" enctype="multipart/form-data">
+                  <form action="{{ route('post.store') }}" method="post" enctype="multipart/form-data">
                       @csrf
-                      <input type="hidden" name="id_user">
-                      <input type="hidden" name="likes" value="0">
+                      <input type="hidden" name="user_id" value={{session('user')->id}}>
 
-                      <textarea rows="2" id="tweetText" placeholder="Whats happening?" name="data"></textarea> 
+                      <textarea rows="2" id="tweetText" placeholder="Whats happening?" name="post"></textarea> 
                       <hr>
                       <div class="tweet-button">
                         <button class="btn btn-primary" type="submit">Tweet</button>
@@ -38,28 +36,20 @@
 
               {{-- posts --}}
 
-              {{-- @foreach ($posts as $post) --}}
+              @foreach ($posts as $post)
 
-                {{--@component('components.post','teste')
-                    @slot('userImg',"{$post->image}")
-                    @slot('hour',"{$post->created_at}")
-                    @slot('user',"{$post->name}")
-                    @slot('text',"{$post->data}")
-                    @slot('likes',"{$post->likes}") 
-                    @slot('comments','10')
-                @endcomponent --}}
-
-                {{-- @include('components.post',[
-                  'image' => $post->image,
-                  'user' => $post->name,
+                @include('components.post',[
+                  'image' => $post->user->image,
+                  'user' => $post->user->name,
                   'hour' => $post->created_at,
-                  'text' => $post->data,
+                  'text' => $post->post,
                   'likes' => $post->likes,
                   'comments' => $post->comments,
-                  'id' => $post->id_post,
+                  'id' => $post->id,
+                  'userId' => $post->user->id,
                 ])
                 
-              @endforeach --}}
+              @endforeach
               
             </div>
 
