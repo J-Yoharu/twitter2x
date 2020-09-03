@@ -16,7 +16,7 @@
             <div class="col-md-8 p-0 border-left border-right">
 
               {{-- tweet --}}
-
+                {{session()->get('user')->name}}
               <div style="width:100%" class="content-post">
                 <div class="post-img">
                   <img src={{session()->get('user')->image}} alt="profile photo">

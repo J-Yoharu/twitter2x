@@ -11,7 +11,6 @@ class LoginController extends Controller
 {
     public function index(){
         session()->get('user') ? session()->forget('user'):false; 
-        
         return view('login.index');
     }
 
@@ -24,7 +23,8 @@ class LoginController extends Controller
 
             if($user){
                 if($user->password == $request->password){
-                    return redirect()->route('index')->with(['user' => $user]);
+                    session(['user' => $user]);
+                    return redirect()->route('index');
                     return view('index',['user' => $user]);
                 }
                 return view('login.index',['error' => 'Senha incorreta']);
