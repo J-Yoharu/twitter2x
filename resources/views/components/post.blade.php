@@ -7,25 +7,26 @@
         <div class="d-flex">
             <span class="user">{{$user}}</span>
             
-            <span>·{{$hour}}</span> 
+            {{-- <span>·{{$hour}}</span>  --}}
         
-            <div class="ml-auto">
-                {{-- <a href="{{ route('posts.edit', $id) }}">Excluir</a> --}}
+            <div class="ml-auto">               
+                @if (session('user')->id == $userId)
+                <button class="btn btn-sm btn-primary" value=false onclick="confirmEdit(this,{{$id}})" style="width:30px"><i class="fa fa-edit mr-2"></i></button>
+                <button class="btn btn-sm p-1 btn-danger" value=false onclick="confirmRemove(this,{{$id}})" style="width:30px"><i class="fa fa-trash"></i></button>
+                @endif
             </div>
  
 
         </div>
 
         <div class="post-content">
-            <p>
-                {{$text}}
-            </p>
+            <p class="outline:none" id="postText{{$id}}" contentEditable="false">{{$text}}<p>
         </div>
         <div class="post-react">
-            <div class="react" onclick="like({{$id}},{{$userId}})">
+            <div class="react mr-5 d-flex justify-content-center align-items-center rounded" onclick="like({{$id}},{{$userId}})">
                 <i class="fa fa-2x fa-thumbs-up"> </i> <span> {{$likes== null ? 0:$likes}} </span>
             </div>
-            <div class="react" onclick="comment({{$id}},{{$userId}})">
+            <div class="react d-flex justify-content-center align-items-center rounded" onclick="comment({{$id}},{{$userId}})">
                 <i class="fa fa-2x fa-comment"> </i> <span> {{$comments == null ? 0:$comments}} </span>
             </div>
         </div>
@@ -100,6 +101,49 @@
            //let like = await axios.post('http://twitter2x.test/likes', { post_id: postId,user_id: userId});
 
         }
-     
+        function confirmEdit(obj,id){
+            if(obj.value=="true"){
+                edit(id);
+                obj.value=false
+                obj.className="btn btn-sm btn-primary";
+                obj.innerHTML="<i class='fa fa-edit'></i>"
+                return true
+            }
+            obj.value=true
+            console.log(document.getElementById(id));
+            obj.className="btn btn-sm btn-success";
+            obj.innerHTML="<i class='fa fa-check'></i>";
+            postText = document.getElementById(`postText${id}`);
+            postText.setAttribute("contentEditable","true");
+            postText.focus();
+
+        }
+        async function edit(id){
+            postText = document.getElementById(`postText${id}`);
+            postText.setAttribute("contentEditable","false");
+            console.log("chamou")
+            let request = await axios.put(`http://twitter2x.test/posts/${id}/edit`,{post:postText.innerText})
+                .then(()=>{
+                    console.log("sucesso")
+                })
+
+            
+        }
+        function confirmRemove(obj,id){
+            obj.value == "true" ? remove(id):false
+            obj.value=true
+
+            obj.className="btn btn-sm btn-success";
+            obj.innerHTML="<i class='fa fa-check'></i>";
+        }
+        async function remove(id){
+            let request = await axios.delete(`http://twitter2x.test/posts/${id}/delete`)
+                .then(()=>{
+                    document.getElementById(id).remove();
+                })
+    
+
+
+        }
     </script>
 @endpush
