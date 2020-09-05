@@ -27,14 +27,21 @@ class LikeController extends Controller
         return response()->json(['success'=>'criado o like com sucesso']);
     }
 
-    public function delete($id){
-        $like= Like::find($id);
+    public function delete(Request $request){
+        $like= Like::where([
+            ['user_id','=',$request->user_id],
+            ['post_id','=',$request->post_id],
+        ])->first();
+            
         if($like){
             $like->delete();
             return response()
-                ->json(['success'=>'Deletado com sucesso']);
+                ->json(['ok'=>'hehe']);
         }
         
         return response()->json(['error'=>'não encontrado'],404);
     }
+    // public function user($id){
+    //     dd(Like::where('user_id',$id)->get('post_id')->contains('post_id',2));
+    // }
 }

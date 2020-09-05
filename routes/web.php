@@ -51,7 +51,9 @@ Route::prefix('likes')->group(function(){
     Route::get('/',"LikeController@index")->name('like.index');
     Route::get('/{id}',"LikeController@show")->name('like.show');
     Route::post('/',"LikeController@store")->name('like.store');
-    Route::delete('/{id}/delete',"LikeController@delete")->name('like.delete');
+    Route::delete('/delete',"LikeController@delete")->name('like.delete');
+
+    Route::get('/user/{id}',"LikeController@user")->name('like.user');
 
 });
 
