@@ -32,11 +32,22 @@
     var pusher = new Pusher('1274225ed523873978b3', {
       cluster: 'mt1'
     });
-
-    var channel = pusher.subscribe('like');
-    channel.bind('App\\Events\\UserCreatedPost', function(data) {
+// atualizando os posts
+    var channelPost = pusher.subscribe('createPost');
+    channelPost.bind('App\\Events\\UserCreatedPost', function(data) {
       renderPost(data.post); 
       posts.push(data.post); 
+    });
+    
+// atualizando os likes
+    var channelLike = pusher.subscribe('like');
+    channelLike.bind('App\\Events\\LikedPost', function(data) {
+      console.log(data.like.post_id);
+      var like = document.getElementById("likeCount"+data.like.post_id);
+      var qtdLike = parseInt(like.innerText);
+      qtdLike+=1;
+      console.log(qtdLike);
+      like.innerText=qtdLike;
     });
 
   </script>

@@ -9,21 +9,19 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Post;
 
-class UserCreatedPost implements ShouldBroadcast
+class UserEditPost
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $post;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Post $post)
+    public function __construct()
     {
-        $this->post = $post;
+        //
     }
 
     /**
@@ -33,7 +31,6 @@ class UserCreatedPost implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['createPost'];
+        return ['editPost'];
     }
-
 }
