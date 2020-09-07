@@ -4,10 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Events\LikedPost;
+
 class UserController extends Controller
 {
     public function index(){
-        return response()->json(User::all());
+        $user =  User::first();
+        event(new LikedPost($user));
+        return response()->json($user);
+
     }
 
 

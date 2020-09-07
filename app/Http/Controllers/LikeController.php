@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Like;
-
+use App\Events\LikedPost;
 class LikeController extends Controller
 {
     public function index(){
@@ -23,7 +23,8 @@ class LikeController extends Controller
     }
 
     public function store(Request $request){
-        Like::create($request->all());
+        event(new LikedPost(Like::create($request->all())));
+
         return response()->json(['success'=>'criado o like com sucesso']);
     }
 

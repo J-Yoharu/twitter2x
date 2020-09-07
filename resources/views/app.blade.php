@@ -23,5 +23,23 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"></script>
     @stack('scripts')
+    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+  <script>
+
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('1274225ed523873978b3', {
+      cluster: 'mt1'
+    });
+
+    var channel = pusher.subscribe('like');
+    channel.bind('App\\Events\\UserCreatedPost', function(data) {
+      renderPost(data.post); 
+      posts.push(data.post); 
+    });
+
+  </script>
+
   </body>
 </html>
