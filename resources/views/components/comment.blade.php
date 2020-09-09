@@ -19,7 +19,7 @@
                           </ul>
                           <div>
                               <button class="btn btn-sm rounded-circle border"  data-toggle="collapse" data-target="#menuCollapseComment${comment.id}">
-                                  <i class="fa fa-ellipsis-h"></i>
+                                  <i class="fa fa-caret-down"></i>
                               </button>            
                           </div>
                       </div>
@@ -27,7 +27,7 @@
                 </div>
               `
         var commentTemplate = `
-        <div class="d-flex border p-2 mt-4" style="min-height:5rem">
+        <div class="d-flex border rounded bg-white p-2 mt-4" style="min-height:3rem">
             <div class="col col-sm-auto p-0 m-0 pr-2 d-flex justify-content-center align-items-top"> 
                 <img src="${comment.user.image}" class="rounded-circle" style="max-width:2rem;min-width:2rem;max-height:2rem;min-height:2rem"  alt="profile photo">
             </div>
@@ -39,7 +39,7 @@
                     <p class="text-justify" id="commentText${comment.id}" style="width:90%">${comment.comment}</p> 
                 </div>
             </div>
-        ${comment.comment == "COMENTÁRIO INDISPONÍVEL" && comment.user_id == currentUser.id ? "</div>":adminComment}
+        ${comment.user_id != currentUser.id || comment.comment == "COMENTÁRIO INDISPONÍVEL"  ? "</div>":adminComment}
         `
 
         var div = document.createElement("div");

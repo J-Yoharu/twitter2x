@@ -13,18 +13,18 @@
           <div class="row" style="min-height:100vh">
             
             {{--twitte / posts --}}
-            <div class="col-md-8 p-0 border-left border-right">
+            <div class="col-md-6 p-0">
 
               {{-- tweet --}}
-              <div class="d-flex text-white border p-2 mb-5" style="min-height:6rem">
+              <div class="d-flex border rounded bg-white mt-2 p-3 mb-5" style="min-height:6rem">
                 <div class="col col-sm-auto p-0 m-0 pr-2 d-flex justify-content-center align-items-top">
-                    <img src={{session('user')->image}} class="rounded-circle" style="max-width:4rem;min-width:4rem;max-height:4rem;min-height:4rem" alt="profile photo">
+                    <img src={{session('user')->image}} class="rounded-circle" style="max-width:3rem;min-width:3rem;max-height:3rem;min-height:3rem" alt="profile photo">
                 </div>
                 <div class="col">
-                  <div class="row  w-75">
-                    <textarea class="w-100" id="post" style="white-space:pre-wrap;outline:none;border:none;resize:none" placeholder="Whats happening?"></textarea>
+                  <div class="row  w-100 border">
+                    <textarea class="w-100" rows="5" id="post" style="white-space:pre-wrap;outline:none;border:none;resize:none" placeholder="Whats happening?"></textarea>
                   </div>
-                  <div class="row d-flex justify-content-end w-75">
+                  <div class="row d-flex mt-2 justify-content-end w-100">
                     <button class="btn btn-primary" onclick="createPost()">Tweet</button>
                   </div>
                 </div>
@@ -49,24 +49,26 @@
 <x-comment/>
 @push('scripts')
     <script>
-        var currentUser = {!!session('user')!!};
-        var posts = {!!$posts!!};
-        var postsLiked = {!!$postsLiked!!}
-        var currentPostId = '';
-        var currentCommentId = '';
-        var textarea = document.querySelector('textarea');
-        textarea.addEventListener('keydown', autosize);
+      var currentUser = {!!session('user')!!};
+      var posts = {!!$posts!!};
+      var postsLiked = {!!$postsLiked!!}
+      var currentPostId = '';
+      var currentCommentId = '';
+      var textarea = document.querySelector('textarea');
 
-        function autosize(){
-          var el = this;
-          setTimeout(function(){
-            el.style.cssText = 'height:auto;';
-            el.style.cssText = 'height:' + el.scrollHeight + 'px;white-space:pre-wrap;outline:none;border:none;resize:none';
-          },0);
-        }
-        posts.forEach((post)=>{
-          renderPost(post);
-        });
+      textarea.addEventListener('keydown', autosize);
+        
+      posts.forEach((post)=>{
+        renderPost(post);
+      });
+
+      function autosize(){
+        var el = this;
+        setTimeout(function(){
+          el.style.cssText = 'height:auto;';
+          el.style.cssText = 'height:' + el.scrollHeight + 'px;white-space:pre-wrap;outline:none;border:none;resize:none';
+        },0);
+      }
 
       async function createPost(id){
         let postText = document.getElementById("post").value;
@@ -198,6 +200,9 @@
   .fa-comment,.fa-thumbs-up{
     -webkit-text-stroke:1px black;
     color:white;
+  }
+  .fa{
+    cursor:pointer;
   }
 </style>
 @endpush

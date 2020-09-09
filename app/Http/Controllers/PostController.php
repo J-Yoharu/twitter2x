@@ -35,11 +35,14 @@ class postController extends Controller
         }
         
         public function store(Request $request){
-            $create = Post::create($request->all());
-            $post = Post::with('user','likes')->withCount('comments as comments')->find($create->id);
-            event(new UserCreatedPost($post));
+            if(session('user')->id == $request->user_id){
+                $create = Post::create($request->all());
+                $post = Post::with('user','likes')->withCount('comments as comments')->find($create->id);
+                event(new UserCreatedPost($post));
+                return response()->json($post);
+            }
 
-            return response()->json($post);
+            return response()->json(['error' => 'Usuário sem permissão para twittar']);
 
         }
         public function update($id,Request $request){

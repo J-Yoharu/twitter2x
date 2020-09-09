@@ -37,14 +37,14 @@ class CommentController extends Controller
 
     public function update($id,Request $request){
         $comment = Comment::find($id);
-        if($comment){
+        if($comment && $comment->comment != 'COMENTÁRIO INDISPONÍVEL'){
             $comment->update($request->all());
             event(new UserDeleteorEditComment($comment));
             return response()
                 ->json([$comment]);
         }
         return response()
-            ->json(['error' => 'Comentário não encontrado'],404);
+            ->json(['error' => 'Comentário não encontrado ou indisponível'],404);
     }
 
     public function delete($id){

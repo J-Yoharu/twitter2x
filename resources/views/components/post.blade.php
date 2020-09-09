@@ -27,7 +27,7 @@
                           </ul>
                           <div>
                               <button class="btn btn-sm rounded-circle border"  data-toggle="collapse" data-target="#menuCollapse${post.id}">
-                                  <i class="fa fa-ellipsis-h"></i>
+                                  <i class="fa fa-caret-down"></i>
                               </button>            
                           </div>
                       </div>
@@ -35,9 +35,9 @@
                 </div>
               `
               var postTemplate= `
-                <div class="d-flex border p-2 mt-4" style="min-height:5rem">
+                <div class="d-flex border rounded p-2 mt-4  bg-white" style="min-height:5rem">
                     <div class="col col-sm-auto p-0 m-0 pr-2 d-flex justify-content-center align-items-top"> 
-                        <img src="${post.user.image}" class="rounded-circle" style="max-width:4rem;min-width:4rem;max-height:4rem;min-height:4rem"  alt="profile photo">
+                        <img src="${post.user.image}" class="rounded-circle" style="max-width:3rem;min-width:3rem;max-height:3rem;min-height:3rem"  alt="profile photo">
                     </div>
                     <div class="col">
                         <div class="row">
@@ -60,17 +60,17 @@
                 
                         </div>
                         <div class="row collapse mt-4" id="collapseComment${post.id}">
-                            <div class="card card-body">    
-                              <div class="d-flex text-white border p-2 mb-1 bg-light" style="min-height:4rem">
+                            <div class="card card-body p-1">    
+                              <div class="d-flex border m-0 p-2 mb-1 bg-light" style="min-height:4rem">
                                 <div class="col col-sm-auto p-0 m-0 pr-2 d-flex justify-content-center align-items-top">
                                     <img src=${currentUser.image} class="rounded-circle" style="max-width:2rem;min-width:2rem;max-height:2rem;min-height:2rem" alt="profile photo">
                                 </div>
                                 <div class="col d-flex justify-content-start align-items-end">
                                     <textarea class="w-100" style="white-space:pre-wrap;outline:none;border:none;resize:none" id="commentText${post.id}" placeholder="Olá?"></textarea>
-                                    <button onclick="createComments()" class="btn btn-primary">Comentar</button>     
+                                    <button onclick="createComments()" class="btn btn-primary ml-2">Comentar</button>     
                                 </div>
                                 </div>
-                                <div class="col" id="commentContainer${post.id}">
+                                <div class="col bg-light" id="commentContainer${post.id}">
 
                                 </div>
                             </div>
