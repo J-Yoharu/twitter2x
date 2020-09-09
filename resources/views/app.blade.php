@@ -32,24 +32,65 @@
     var pusher = new Pusher('1274225ed523873978b3', {
       cluster: 'mt1'
     });
+    
 // atualizando os posts
     var channelPost = pusher.subscribe('createPost');
-    channelPost.bind('App\\Events\\UserCreatedPost', function(data) {
+    channelPost.bind('App\\Events\\Post\\UserCreatedPost', function(data) {
       renderPost(data.post); 
       posts.push(data.post); 
     });
+
+    var channelDelete = pusher.subscribe('deletePost');
+    channelDelete.bind('App\\Events\\Post\\UserDeletePost', function(data) {
+        document.getElementById(data.post.id).remove();
+    });
+
+    var channelEdit = pusher.subscribe('editPost');
+    channelEdit.bind('App\\Events\\Post\\UserEditPost', function(data) {
+      $("#postText"+currentPostId).text(data.post.post);
+    });
+
     
 // atualizando os likes
     var channelLike = pusher.subscribe('like');
-    channelLike.bind('App\\Events\\LikedPost', function(data) {
-      console.log(data.like.post_id);
-      var like = document.getElementById("likeCount"+data.like.post_id);
-      var qtdLike = parseInt(like.innerText);
+    channelLike.bind('App\\Events\\Like\\LikedPost', function(data) {
+      let postId = data.like.post_id;
+      let like = document.getElementById("likeCount"+postId);
+      let likeIcon = document.getElementById("likeIcon"+postId);
+      let qtdLike = parseInt(like.innerText);
       qtdLike+=1;
-      console.log(qtdLike);
       like.innerText=qtdLike;
     });
 
+    channelLike.bind('App\\Events\\Like\\DeslikePost', function(data) {
+      let postId = data.like.post_id;
+      let like = document.getElementById("likeCount"+postId);
+      let likeIcon = document.getElementById("likeIcon"+postId);
+      let qtdLike = parseInt(like.innerText);
+      qtdLike-=1;
+      like.innerText=qtdLike;
+    });
+
+    var channelPost = pusher.subscribe('comment');
+    channelPost.bind('App\\Events\\Comment\\UserCommentPost', function(data) {
+      let postId = data.comment.post_id;
+      let comment = document.getElementById("commentCount"+postId);
+      let qtdComment = parseInt(comment.innerText);
+      qtdComment+=1;
+      comment.innerText= qtdComment;
+
+      qtdInContainer = document.getElementById("commentContainer"+postId).children.length;
+      if(qtdInContainer>=0){
+        renderComment(data.comment);
+      }
+    });
+
+    var channelDelete = pusher.subscribe('deleteorEditComment');
+    channelDelete.bind('App\\Events\\Comment\\UserDeleteorEditComment', function(data) {
+      let adminTemplate = document.getElementById("adminComment"+data.comment.id);
+      document.getElementById("commentText"+data.comment.id).innerHTML = data.comment.comment;
+      data.comment.comment == "COMENTÁRIO INDISPONÍVEL" ? adminTemplate.remove():false
+    });
   </script>
 
   </body>

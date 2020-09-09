@@ -4,10 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Comment;
+use App\Events\Comment\UserCommentPost;
+use App\Events\Comment\userDeleteComment;
+use App\Events\Comment\UserDeleteorEditComment;
+
+
 class CommentController extends Controller
 {
-    public function index(){
-        return response()->json(Comment::with('user','post')->get());
+    public function index($id){
+        $commentPost = Comment::with('user','post')->where('post_id',$id)->get();
+        return response()->json($commentPost);
     }
     
     public function show($id){
@@ -21,15 +27,19 @@ class CommentController extends Controller
     }
 
     public function store(Request $request){
-        Comment::create($request->all());
+        $create = Comment::create($request->all());
+        $post = Comment::with('user')->find($create->id);
+        event(new UserCommentPost($post));
+
         return response()
-            ->json(['success'=>'Criado comentário com sucesso']);
+            ->json($post);
     }
 
     public function update($id,Request $request){
         $comment = Comment::find($id);
         if($comment){
             $comment->update($request->all());
+            event(new UserDeleteorEditComment($comment));
             return response()
                 ->json([$comment]);
         }
@@ -39,7 +49,9 @@ class CommentController extends Controller
 
     public function delete($id){
         $comment = Comment::find($id);
+        
         if($comment){
+            $comment->delete();
             return response()
                 ->json(['success' => 'deletado com sucesso']);
         }

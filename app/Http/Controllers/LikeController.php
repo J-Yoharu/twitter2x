@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Like;
-use App\Events\LikedPost;
+use App\Events\Like\LikedPost;
+use App\Events\Like\DeslikePost;
+
 class LikeController extends Controller
 {
     public function index(){
@@ -35,14 +37,13 @@ class LikeController extends Controller
         ])->first();
             
         if($like){
+            event(new DeslikePost($like));
+            
             $like->delete();
             return response()
-                ->json(['ok'=>'hehe']);
+                ->json(['success'=>'removido']);
         }
         
         return response()->json(['error'=>'não encontrado'],404);
     }
-    // public function user($id){
-    //     dd(Like::where('user_id',$id)->get('post_id')->contains('post_id',2));
-    // }
 }

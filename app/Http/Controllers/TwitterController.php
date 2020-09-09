@@ -11,7 +11,7 @@ class TwitterController extends Controller
 
         if(session('user')){
             $posts = Post::with('user')->withCount('comments as comments','likes as likes')->orderBy('created_at','asc')->get();
-            $postsLiked = Like::where('user_id',session('user')->id)->get();
+            $postsLiked = Like::select('post_id')->where('user_id',session('user')->id)->get();
             return view('index',['posts' => $posts,'likeds','postsLiked' => $postsLiked]);
         }
         

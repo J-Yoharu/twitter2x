@@ -46,12 +46,14 @@
     </div>
 </div> 
 <x-post/>
-
+<x-comment/>
 @push('scripts')
     <script>
         var currentUser = {!!session('user')!!};
         var posts = {!!$posts!!};
-
+        var postsLiked = {!!$postsLiked!!}
+        var currentPostId = '';
+        var currentCommentId = '';
         var textarea = document.querySelector('textarea');
         textarea.addEventListener('keydown', autosize);
 
@@ -66,29 +68,128 @@
           renderPost(post);
         });
 
-        async function createPost(){
-          let postText = document.getElementById("post").value;
-          await axios.post(`http://twitter2x.test/posts`,{
-            post:postText,
-            user_id:currentUser.id,
-            image_post:null,
-          })
-          .then((resp)=>{
-            document.querySelector("textarea").value="";            
-            });
-          
+      async function createPost(id){
+        let postText = document.getElementById("post").value;
+        await axios.post(`http://twitter2x.test/posts`,{
+          post:postText,
+          user_id:currentUser.id,
+          image_post:null,
+        })
+        .then((resp)=>{
+          document.querySelector("textarea").value="";            
+          });
+        
+      }
+              
+      async function edit(event){
+        console.log();;
+        let button = jQuery(event);
+        let postText = $("#postText"+currentPostId);
+
+        console.log(button.toggleClass('list-group-item-primary'));
+        console.log(button.toggleClass('list-group-item-success'));
+
+        if(button.hasClass('list-group-item-success')){
+          postText.attr("contenteditable","true");
+          postText.focus();
+          button.contents("span").text("Salvar");
         }
-      async function like(evt){
-        postId = evt.currentTarget.id;
+        else if(button.hasClass('list-group-item-primary')){
+          await axios.put(`http://twitter2x.test/posts/${currentPostId}/edit`,{
+                post:postText.text(),
+              }).then((resp)=>{
+                button.contents("span").text("Editar");
+                postText.attr("contenteditable","false");
+
+              });
+
+        }
+        
+        postText = document.getElementById("postText"+currentPostId);
+
+        
+      }
+
+      async function deletePost(){
+        await axios.delete(`http://twitter2x.test/posts/${currentPostId}/delete`).then((resp)=>{
+        });
+      }
+
+      async function likeorDeslike(){
+        $("#likeIcon"+currentPostId).toggleClass('text-primary');
+        
+        if($("#likeIcon"+currentPostId).hasClass('text-primary')){
           await axios.post(`http://twitter2x.test/likes`,{
                 user_id:currentUser.id,
-                post_id:postId,
+                post_id:currentPostId,
               }).then((resp)=>{
                 console.log("deu like");
               });
+              return true;
+        }
+        console.log(currentUser.id,currentPostId);
+        await axios.delete(`http://twitter2x.test/likes/delete`,{
+            params:{
+                  user_id:currentUser.id,
+                  post_id:currentPostId,
+                } 
+        }).then((resp)=>{
+          console.log("retirou like");
+        });
+        return false;
       }
 
+      async function createComments(){
+        commentText=document.getElementById("commentText"+currentPostId).value;
+        await axios.post(`http://twitter2x.test/comments`,{
+          comment:commentText,
+          user_id:currentUser.id,
+          post_id:currentPostId,
+        }).then((resp)=>{
+          document.getElementById("commentText"+currentPostId).value="";
+        });
+      }
 
+      async function loadComments(evt){
+        await axios.get(`http://twitter2x.test/comments/${currentPostId}/all`).then((resp)=>{
+          document.getElementById(`commentContainer${currentPostId}`).innerHTML="";
+          resp.data.forEach((comment)=>{
+            renderComment(comment);
+          });
+        });
+      }
+
+      async function deleteComment(){
+        await axios.put(`http://twitter2x.test/comments/${currentCommentId}/edit`,{
+          comment:'COMENTÁRIO INDISPONÍVEL',
+        }).then((resp)=>{
+        });
+      }
+
+      async function editComment(event){
+
+        let button = jQuery(event);
+        let commentText = $("#commentText"+currentCommentId);
+
+        button.toggleClass('list-group-item-primary');
+        button.toggleClass('list-group-item-success');
+
+        if(button.hasClass('list-group-item-success')){
+          commentText.attr("contenteditable","true");
+          commentText.focus();
+          button.contents("span").text("Salvar");
+        }
+
+        else if(button.hasClass('list-group-item-primary')){
+          await axios.put(`http://twitter2x.test/comments/${currentCommentId}/edit`,{
+                comment:commentText.text(),
+              }).then((resp)=>{
+                commentText.attr("contenteditable","false");
+                button.contents("span").text("Editar");
+
+              });
+        }
+      }
     </script>
 @endpush
 

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
-use App\Events\UserCreatedPost;
+use App\Events\Post\UserCreatedPost;
+use App\Events\Post\UserDeletePost;
+use App\Events\Post\UserEditPost;
 use DB;
 
 class postController extends Controller
@@ -44,6 +46,7 @@ class postController extends Controller
             $post = Post::find($id);
             if($post){
                 $post->update($request->all());
+                event(new UserEditPost($post));
                 return response()
                     ->json($post);
             }
@@ -52,9 +55,10 @@ class postController extends Controller
         public function delete($id){
             $post = Post::find($id);
             if($post){
+                event(new UserDeletePost($post));
                 $post->delete();
                 return response()
-                    ->json(['success'=>'Post deletado com sucesso']);
+                    ->json($post);
             }
             return response()
                 ->json(['error'=>'Post não encontrado'],404);

@@ -9,8 +9,7 @@ use App\Events\LikedPost;
 class UserController extends Controller
 {
     public function index(){
-        $user =  User::first();
-        event(new LikedPost($user));
+        $user =  User::all();
         return response()->json($user);
 
     }

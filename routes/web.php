@@ -60,7 +60,7 @@ Route::prefix('likes')->group(function(){
 
 Route::prefix('comments')->group(function(){
 
-    Route::get('/',"CommentController@index")->name('comment.index');
+    Route::get('/{id}/all',"CommentController@index")->name('comment.index');
     Route::get('/{id}',"CommentController@show")->name('comment.show');
     Route::post('/',"CommentController@store")->name('comment.store');
     Route::put('/{id}/edit',"CommentController@update")->name('comment.update');
