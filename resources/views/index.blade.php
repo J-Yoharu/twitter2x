@@ -25,6 +25,7 @@
                     <textarea class="w-100" rows="5" id="post" style="white-space:pre-wrap;outline:none;border:none;resize:none" placeholder="Whats happening?"></textarea>
                   </div>
                   <div class="row d-flex mt-2 justify-content-end w-100">
+  
                     <button class="btn btn-primary" onclick="createPost()">Tweet</button>
                   </div>
                 </div>
@@ -32,7 +33,7 @@
 
               {{-- posts --}}
               <div id="postContainer">
-  
+                  
               </div>
               
             </div>
@@ -52,6 +53,7 @@
       var currentUser = {!!session('user')!!};
       var posts = {!!$posts!!};
       var postsLiked = {!!$postsLiked!!}
+      
       var currentPostId = '';
       var currentCommentId = '';
       var textarea = document.querySelector('textarea');

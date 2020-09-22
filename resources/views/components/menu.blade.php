@@ -10,7 +10,11 @@
                 <i class="fa fa-2x fa-home"></i>
                 <a href="{{route('index')}}"><h4 class="nav-link active">Home</h4></a>
             </li>
-    
+
+            <li class="nav-item d-flex align-items-center mt-2">
+                <i class="fa fa-2x fa-comment" style="color:gray"></i>
+                <a href="{{route('index')}}"><h4 class="nav-link active">Chat</h4></a>
+            </li>
             <li class="nav-item d-flex mt-2">
 
             </li>
