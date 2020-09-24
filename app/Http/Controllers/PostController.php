@@ -16,7 +16,7 @@ class postController extends Controller
             // DB::enableQueryLog();
             // $queries = DB::getQueryLog(Post::with('user')->withCount('comments as comments','likes as likes')->get());
             // dd($queries);
-            return response()->json( Post::with('user','likes')->withCount('comments as comments')->get()); 
+            return response()->json( Post::with('user','likes')->withCount('comments as comments')->orderBy('posts.id','desc')->get()); 
             
         }
 

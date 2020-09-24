@@ -59,8 +59,15 @@
       var textarea = document.querySelector('textarea');
 
       textarea.addEventListener('keydown', autosize);
-        
+      
+      async ()=>{
+        console.log("TESTEEEE")
+        var a = await axios.get("twitter2x.test/posts");
+        console.log(a)
+      }
+
       posts.forEach((post)=>{
+        console.log(post.id)
         renderPost(post);
       });
 

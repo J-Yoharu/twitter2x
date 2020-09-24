@@ -25,7 +25,7 @@
     @stack('scripts')
     <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
   <script>
-
+  
     // Enable pusher logging - don't include this in production
     Pusher.logToConsole = true;
 
@@ -42,11 +42,13 @@
 
     var channelDelete = pusher.subscribe('deletePost');
     channelDelete.bind('App\\Events\\Post\\UserDeletePost', function(data) {
+      console.log(data)
         document.getElementById(data.post.id).remove();
     });
 
     var channelEdit = pusher.subscribe('editPost');
     channelEdit.bind('App\\Events\\Post\\UserEditPost', function(data) {
+      console.log(data)
       $("#postText"+currentPostId).text(data.post.post);
     });
 

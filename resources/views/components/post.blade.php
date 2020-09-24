@@ -1,5 +1,6 @@
     <script>
         function renderPost(post){
+            console.log(post.user_id)
             let checkLike=false;
 
             postsLiked.forEach(element => {
@@ -76,7 +77,7 @@
                             </div>
                         </div>
                     </div>
-                    ${currentUser.id == post.user.id? adminTemplate:"</div>"}
+                    ${currentUser.id == post.user_id? adminTemplate:"</div>"}
                 `;
                 
               let div = document.createElement("div");

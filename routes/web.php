@@ -67,3 +67,7 @@ Route::prefix('comments')->group(function(){
     Route::delete('/{id}/delete',"CommentController@delete")->name('comment.delete');
 
 });
+
+Route::get('/teste', function(){
+   return view('teste');
+});
