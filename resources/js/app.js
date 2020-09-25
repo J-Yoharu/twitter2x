@@ -7,6 +7,7 @@
 require('./bootstrap');
 import router from './router'
 import appMain from './App.vue'
+import loader from './components/Loader.vue'
 import 'axios'
 window.Vue = require('vue');
 
@@ -22,6 +23,8 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('app-main',appMain);
+Vue.component('Loader',loader);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

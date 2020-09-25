@@ -49,13 +49,20 @@
 </head>
 <link rel="stylesheet" href="{{asset('css/app.css')}}">
 <script>
-    var currentUser = {!!session('user')!!}
 </script>
 <body>
-{{-- <h1>{{$currentUser}}</h1> --}}
+    <div id="error">
+        <h1>Você não parece estar logado :( <br> faça login <a href="/login">clicando aqui</a></h1>
+    </div>
     <div id="app">
         <app-main></app-main>
     </div>
+    <script>
+        var currentUser = {!!session('user')!!}
+        let app = document.querySelector("#app");
+        let error = document.querySelector("#error");
+        currentUser != undefined ? error.remove():app.remove();
+    </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="{{asset('js/app.js')}}"></script>
 </body>

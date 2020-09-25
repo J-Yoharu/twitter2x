@@ -1,13 +1,15 @@
 <template> 
-    <div>
-        <MakePost :user="user"/>
-        <!-- loader -->
-        <div class="d-flex justify-content-center mt-4 w-100" id="loader"><div class="loader"></div></div>
-        
-        <div id="postsContent" class="d-none">
-            <div class="text-center mt-5 bg-danger" v-if="posts.length == 0">Não tem post :(</div>
 
-            <Post v-else v-for="(post,index) in posts" :key="index" :post="post"/>
+    <div>
+
+        <MakePost/>
+        <!-- loader -->
+        <Loader :text="'Carregando posts'" :dismiss="posts"/>
+                
+        <div id="postsContent" class="d-none bg-light">
+            <div class="text-center mt-5 bg-danger" v-if="posts.length == 0">Não tem post :(</div>
+            <Post v-else v-for="(post,index) in posts" :key="index" 
+                :postLiked="postLiked(post.id)" :post="post"/>
         </div>
 
     </div>
@@ -24,21 +26,29 @@ export default {
     data(){
         return{
             posts:[],
-            // currentUser = var vinda do appVue.blade.php
-            user:currentUser,
+            postsLiked:[],
         }
     },
     methods:{
         async getPosts(){
-            let request = await axios("http://twitter2x.test/posts").then((resp)=>{
-                $("#loader").remove()
+            await axios("http://twitter2x.test/posts").then((resp)=>{
                 $("#postsContent").removeClass("d-none")
-                return resp
+                this.posts = resp.data;
             });
-            this.posts = request.data;
         },
+        async getLikes(){
+            await axios(`http://twitter2x.test/likes/user/${this.$currentUser.id}`).then((resp)=>{
+                this.postsLiked = resp.data;
+            }); 
+        },
+        postLiked(postId){
+            return this.postsLiked.find((like)=>{
+                return like.post_id == postId
+            })
+        }
     },
     mounted(){
+        this.getLikes();
         this.getPosts();
     }
 }

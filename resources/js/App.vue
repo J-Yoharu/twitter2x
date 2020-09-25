@@ -17,7 +17,8 @@
 
 <script>
 import Vue from 'vue'
-Vue.prototype.$currentUser = currentUser
+// var currentUser from appVue.blade.php
+Vue.prototype.$currentUser = currentUser;
 import Navbar from './components/Navbar'
 export default {
     components:{

@@ -5,11 +5,13 @@
     </div>
     <div class="col">
         <div class="row  w-100 border">
-        <textarea class="w-100" rows="3" id="post" style="white-space:pre-wrap;outline:none;border:none;resize:none" placeholder="Whats happening?"></textarea>
+        <textarea v-model="textComment" class="w-100" rows="3" style="white-space:pre-wrap;outline:none;border:none;resize:none" 
+            placeholder="Escreva um comentário...">
+        </textarea>
         </div>
         <div class="row d-flex mt-2 justify-content-end w-100">
 
-        <button class="btn btn-primary" onclick="createPost()">Comentar</button>
+        <button class="btn btn-primary" @click="createComment">Comentar</button>
         </div>
     </div>
 </div>
@@ -17,6 +19,24 @@
 
 <script>
 export default {
+    props:['postId'],
+    data(){
+        return{
+            textComment:''
+        }
+    },
+    methods:{
+        async createComment(){
+            await axios.post(`http://twitter2x.test/comments`,{
+                comment:this.textComment,
+                user_id:this.$currentUser.id,
+                post_id:this.postId,
+            }).then((resp)=>{
+                this.textComment=''
+                console.log("criado com sucesso")
+            })
+        },
+    }
 }
 </script>
 

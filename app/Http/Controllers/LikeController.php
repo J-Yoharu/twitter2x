@@ -46,4 +46,8 @@ class LikeController extends Controller
         
         return response()->json(['error'=>'não encontrado'],404);
     }
+    public function user($id){
+        $likes = Like::where('user_id','=',$id)->get();
+        return response()->json($likes);
+    }
 }

@@ -39,22 +39,21 @@
                         <span style="width:4rem; font-size:2.0rem" class="text-center fa fa-span-circle"> </span>
                     </router-link>
 
-                    <router-link tag="li" to='/more' active-class="active" exact class="nav-item d-flex mt-4 mb-4">
+                    <router-link tag="li" to='/more' active-class="active" exact class="nav-item d-flex mt-4">
                         <span style="width:4rem; font-size:2.0rem" class="text-center fa fa-info fa-2x"> </span>
                     </router-link>
-                    
+                    <li class="nav-item d-flex mt-4 mb-4">
+                        <a class="text-dark" href="/login">
+                        <span style="width:4rem" class="text-center fa fa-sign-out fa-2x"></span>
+                        </a>     
+                        
+                    </li>
                     
                     <div class="d-flex align-items-end" style="height:28vh">
                         <div class="col-md-auto p-0 m-0 mr-1 d-flex align-items-center">
-                            <!-- <img :src="dataUser.image" style="border-radius:50rem; max-width:55px; min-width:55px; min-height:55px; max-height:55px;" alt="profile photo"> -->
                         </div>
                     </div>
-                    
 
-                    <!-- 
-                    <button class="rounded-circle" style="background-color:#1da1f2; border:2px solid #1da1f2;" data-toggle="modal" data-target="#tweetModal">
-                        <span style="width:4rem; font-size:2rem" class="text-center fa fa-user"> </span>    
-                    </button> -->
                 </span>
 
                 <div class="col justify-content-end collapse navbar-collapse" id="navbarTogglerDemo01">
@@ -67,7 +66,7 @@
                             <span style="width:4rem" class="text-center fa fa-home fa-2x"> </span>
                             <span> Home </span>
                         </router-link>
-
+    
                         <router-link tag="li" :to='{path:"explore"}' active-class="active" exact class="nav-item d-flex mt-4">
                             <span style="width:4rem" class="text-center fa fa-hashtag fa-2x"> </span>
                             <span> Explore </span>
@@ -98,11 +97,14 @@
                             <span> Profile </span>
                         </router-link>
                         
-                        <router-link tag="li" to='/more' active-class="active" exact class="nav-item d-flex mt-4 mb-4">
+                        <router-link tag="li" to='/more' active-class="active" exact class="nav-item d-flex mt-4">
                             <span style="width:4rem" class="text-center fa fa-info fa-2x"> </span>
                             <span> More </span>
                         </router-link>
-
+                        <li class="nav-item d-flex mt-4 mb-4">
+                            <span style="width:4rem" class="text-center fa fa-sign-out fa-2x"> </span>
+                            <a class="text-dark" href="/login">Sair</a>
+                        </li>
                         <button class="col p-0 m-0 btn btn-primary rounded-pill pt-2 pb-2" style="background-color:#1da1f2; border:2px solid #1da1f2; font-weight:bold" data-toggle="modal" data-target="#tweetModal">Tweet</button>
                         
                         <!-- Content -->
