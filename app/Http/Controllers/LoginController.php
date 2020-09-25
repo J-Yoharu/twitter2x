@@ -24,12 +24,16 @@ class LoginController extends Controller
             if($user){
                 if($user->password == $request->password){
                     session(['user' => $user]);
-                    return redirect()->route('index');
-                    return view('index',['user' => $user]);
+                    // return redirect()->route('index');
+                    // $posts = Post::with('user')->withCount('comments as comments','likes as likes')->orderBy('posts.id','asc')->get();
+                    // $postsLiked = Like::select('post_id')->where('user_id',session('user')->id)->get();
+                    // return view('index',['posts' => $posts,'likeds','postsLiked' => $postsLiked]);
+                    return redirect()->route("appVue");
                 }
                 return view('login.index',['error' => 'Senha incorreta']);
             }
 
             return view('login.index',['error' => 'E-mail não cadastrado']);
     }
+
 }

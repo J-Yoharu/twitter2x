@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\Route;
 */
 Route::redirect('/','/home');
 
+Route::get("/",function(){
+    $currentUser = session('user');
+    return view('appVue',compact('currentUser'));
+})->name('appVue');
+
 Route::get('/home','TwitterController@index')->name('index');
 
 
