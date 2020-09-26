@@ -2848,8 +2848,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   mounted: function mounted() {
+    var _this3 = this;
+
     this.getLikes();
-    this.getPosts();
+    this.getPosts(); // atualizando os posts
+
+    var channelHome = pusher.subscribe('Home');
+    channelHome.bind('createPost', function (data) {
+      _this3.posts.unshift(data.post);
+    });
+    channelHome.bind('deletePost', function (data) {
+      _this3.posts = _this3.posts.filter(function (post) {
+        return post.id != data.post.id;
+      });
+    });
+    channelHome.bind('editPost', function (data) {
+      _this3.posts.map(function (post) {
+        post.id == data.post.id ? post.post = data.post.post : false;
+      });
+    });
+    channelHome.bind('like', function (data) {
+      console.log(data);
+    });
   }
 });
 

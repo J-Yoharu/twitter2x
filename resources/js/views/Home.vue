@@ -50,6 +50,28 @@ export default {
     mounted(){
         this.getLikes();
         this.getPosts();
+        
+    
+// atualizando os posts
+    let channelHome = pusher.subscribe('Home');
+    channelHome.bind('createPost',(data)=>{
+        this.posts.unshift(data.post);
+    });
+
+    channelHome.bind('deletePost',(data)=>{
+        this.posts = this.posts.filter(post =>{
+            return post.id != data.post.id
+        })
+    });
+    channelHome.bind('editPost',(data)=>{
+        this.posts.map(post =>{
+            post.id == data.post.id ? post.post = data.post.post:false
+        })
+    });
+    channelHome.bind('like',(data)=>{
+        console.log(data);
+    });
+
     }
 }
 </script>

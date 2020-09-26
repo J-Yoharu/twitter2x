@@ -33,7 +33,12 @@ class UserCreatedPost implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return ['createPost'];
+        return ['Home'];
+    }
+
+    public function broadcastAs()
+    {
+        return 'createPost';
     }
 
 }

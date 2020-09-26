@@ -33,6 +33,9 @@ class LikedPost implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['like'];
+        return ['Home'];
+    }
+    public function broadcastAs(){
+        return 'like';
     }
 }

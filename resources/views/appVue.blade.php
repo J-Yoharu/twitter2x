@@ -46,10 +46,9 @@
         to{ bottom:0; opacity:1 }
         }
     </style>
+    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
 </head>
 <link rel="stylesheet" href="{{asset('css/app.css')}}">
-<script>
-</script>
 <body>
     <div id="error">
         <h1>Você não parece estar logado :( <br> faça login <a href="/login">clicando aqui</a></h1>
@@ -62,6 +61,13 @@
         let app = document.querySelector("#app");
         let error = document.querySelector("#error");
         currentUser != undefined ? error.remove():app.remove();
+
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('1274225ed523873978b3', {
+        cluster: 'mt1'
+        });
     </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="{{asset('js/app.js')}}"></script>

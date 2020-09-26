@@ -33,6 +33,11 @@ class UserDeletePost implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['deletePost'];
+        return ['Home'];
+    }
+
+    public function broadcastAs()
+    {
+        return 'deletePost';
     }
 }

@@ -33,6 +33,10 @@ class UserEditPost implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['editPost'];
+        return ['Home'];
+    }
+    public function broadcastAs()
+    {
+        return 'editPost';
     }
 }
