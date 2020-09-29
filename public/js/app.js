@@ -2307,9 +2307,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     likeOrDeslike: function likeOrDeslike($event) {
-      var like = $($event.target);
-      like.toggleClass("text-primary");
-      like.hasClass("text-primary") ? this.like() : this.deslike();
+      this.postLiked == false ? this.like() : this.deslike();
     },
     like: function like() {
       var _this = this;
@@ -2350,7 +2348,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     post_id: _this2.post.id
                   }
                 }).then(function (resp) {
-                  console.log("retirou like");
+                  console.log("deslike");
                 });
 
               case 2:
@@ -2364,13 +2362,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     loadComments: function loadComments() {
       var _this3 = this;
 
+      console.log(this.comments);
       this.comments = [];
       axios("http://twitter2x.test/comments/".concat(this.post.id, "/all")).then(function (resp) {
         $("#commentContent".concat(_this3.post.id)).removeClass("d-none");
         _this3.comments = resp.data;
       });
     }
-  }
+  },
+  created: function created() {}
 });
 
 /***/ }),
@@ -2813,6 +2813,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
 
               case 2:
+                console.log(_this.posts);
+
+              case 3:
               case "end":
                 return _context.stop();
             }
@@ -2841,34 +2844,42 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    postLiked: function postLiked(postId) {
-      return this.postsLiked.find(function (like) {
-        return like.post_id == postId;
+    postLiked: function postLiked(post) {
+      var _this3 = this;
+
+      var like = this.postsLiked.some(function (like) {
+        return like.post_id == post.id && like.user_id == _this3.$currentUser.id;
       });
+      return like;
     }
   },
   mounted: function mounted() {
-    var _this3 = this;
+    var _this4 = this;
 
     this.getLikes();
     this.getPosts(); // atualizando os posts
 
     var channelHome = pusher.subscribe('Home');
     channelHome.bind('createPost', function (data) {
-      _this3.posts.unshift(data.post);
+      _this4.posts.unshift(data.post);
     });
     channelHome.bind('deletePost', function (data) {
-      _this3.posts = _this3.posts.filter(function (post) {
+      _this4.posts = _this4.posts.filter(function (post) {
         return post.id != data.post.id;
       });
     });
     channelHome.bind('editPost', function (data) {
-      _this3.posts.map(function (post) {
+      _this4.posts.map(function (post) {
         post.id == data.post.id ? post.post = data.post.post : false;
       });
     });
-    channelHome.bind('like', function (data) {
-      console.log(data);
+    channelHome.bind('like', function (data) {// console.log(data);
+      // this.postsLiked.unshift(data.like) //adicionar o azulzinho
+      // let post = this.posts.filter((post)=>{
+      //     return post.id == data.post_id;
+      // })
+      // this.posts.likes.unshift(data.like)
+      // console.log(post)
     });
   }
 });
@@ -40187,7 +40198,7 @@ var render = function() {
                         staticStyle: { width: "4rem" }
                       }),
                       _vm._v(" "),
-                      _c("span", [_vm._v(" Home ")])
+                      _c("span", [_vm._v(" Home")])
                     ]
                   ),
                   _vm._v(" "),
@@ -40686,7 +40697,7 @@ var render = function() {
               [
                 _c("i", {
                   staticClass: "fa fa-2x fa-thumbs-up",
-                  class: _vm.postLiked != undefined ? "text-primary" : ""
+                  class: _vm.postLiked ? "text-primary" : "text-white"
                 }),
                 _vm._v(" "),
                 _c("span", [_vm._v(" " + _vm._s(_vm.post.likes.length) + " ")])
@@ -41438,7 +41449,7 @@ var render = function() {
             : _vm._l(_vm.posts, function(post, index) {
                 return _c("Post", {
                   key: index,
-                  attrs: { postLiked: _vm.postLiked(post.id), post: post }
+                  attrs: { postLiked: _vm.postLiked(post), post: post }
                 })
               })
         ],

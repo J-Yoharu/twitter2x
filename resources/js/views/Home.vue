@@ -9,7 +9,7 @@
         <div id="postsContent" class="d-none bg-light">
             <div class="text-center mt-5 bg-danger" v-if="posts.length == 0">Não tem post :(</div>
             <Post v-else v-for="(post,index) in posts" :key="index" 
-                :postLiked="postLiked(post.id)" :post="post"/>
+                :postLiked="postLiked(post)" :post="post"/>
         </div>
 
     </div>
@@ -35,16 +35,18 @@ export default {
                 $("#postsContent").removeClass("d-none")
                 this.posts = resp.data;
             });
+            console.log(this.posts)
         },
         async getLikes(){
             await axios(`http://twitter2x.test/likes/user/${this.$currentUser.id}`).then((resp)=>{
                 this.postsLiked = resp.data;
             }); 
         },
-        postLiked(postId){
-            return this.postsLiked.find((like)=>{
-                return like.post_id == postId
+        postLiked(post){
+            let like = this.postsLiked.some((like)=>{
+                return like.post_id == post.id && like.user_id == this.$currentUser.id
             })
+            return like
         }
     },
     mounted(){
@@ -69,7 +71,13 @@ export default {
         })
     });
     channelHome.bind('like',(data)=>{
-        console.log(data);
+        // console.log(data);
+        // this.postsLiked.unshift(data.like) //adicionar o azulzinho
+        // let post = this.posts.filter((post)=>{
+        //     return post.id == data.post_id;
+        // })
+        // this.posts.likes.unshift(data.like)
+        // console.log(post)
     });
 
     }

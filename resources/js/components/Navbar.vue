@@ -64,7 +64,7 @@
 
                         <router-link tag="li" to='/home' active-class="active" exact class="nav-item d-flex mt-3">
                             <span style="width:4rem" class="text-center fa fa-home fa-2x"> </span>
-                            <span> Home </span>
+                            <span> Home</span>
                         </router-link>
     
                         <router-link tag="li" :to='{path:"explore"}' active-class="active" exact class="nav-item d-flex mt-4">

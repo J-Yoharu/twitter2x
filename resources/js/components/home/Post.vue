@@ -18,7 +18,7 @@
                     <div class="mr-5" @click="likeOrDeslike">
 
                         <i class="fa fa-2x fa-thumbs-up" 
-                            :class="postLiked != undefined ? 'text-primary':''"> 
+                            :class="postLiked  ? 'text-primary':'text-white'"> 
                         </i> 
                         <span> {{post.likes.length}} </span>
                     </div>
@@ -56,14 +56,12 @@ export default {
     },
     data(){
         return{
-            comments:[]
+            comments:[],
         }
     },
     methods:{
         likeOrDeslike($event){
-            let like = $($event.target);
-            like.toggleClass("text-primary")
-            like.hasClass("text-primary") ? this.like():this.deslike()
+            this.postLiked == false ? this.like(): this.deslike()
         },
         
         async like(){
@@ -71,8 +69,8 @@ export default {
                 user_id:this.$currentUser.id,
                 post_id:this.post.id,
             }).then(resp =>{
-                    console.log("deu like");
-                    });
+                console.log("deu like")
+                });
         },
         async deslike(){
             await axios.delete(`http://twitter2x.test/likes/delete`,{
@@ -81,19 +79,22 @@ export default {
                     post_id:this.post.id,
                 } 
             }).then((resp)=>{
-                console.log("retirou like");
+                console.log("deslike")
                 });
         },
         
         loadComments(){
+            console.log(this.comments)
             this.comments = []
             axios(`http://twitter2x.test/comments/${this.post.id}/all`)
                 .then((resp)=>{
                     $(`#commentContent${this.post.id}`).removeClass("d-none")
                     this.comments = resp.data;
                 })
-        },
-    },
+        }
+    },created(){
+
+    }
 }
 </script>
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Follows;
 use App\Events\LikedPost;
 
 class UserController extends Controller
@@ -15,11 +16,21 @@ class UserController extends Controller
     }
 
 
+    // public function show($id){
+    //     $user = User::find($id);
+    //     if($user){
+    //         return response()
+    //             ->json(User::find($id));
+    //     }
+    //     return response()
+    //         ->json(['error'=>'Usuário não encontrado'],404);
+    // }
+
     public function show($id){
-        $user = User::find($id);
+        $user = follows::with('follow')->where('user_id',$id)->get();
         if($user){
             return response()
-                ->json(User::find($id));
+                ->json($user);
         }
         return response()
             ->json(['error'=>'Usuário não encontrado'],404);
