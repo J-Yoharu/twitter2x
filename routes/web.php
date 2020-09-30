@@ -73,6 +73,11 @@ Route::prefix('comments')->group(function(){
 
 });
 
+Route::prefix('chats')->group(function(){
+    Route::get('/user/{id}','ChatController@show')->name('chat.show');
+    Route::get('/{id}/messages','ChatController@messages')->name('chat.messages');
+});
+
 Route::get('/teste', function(){
    return view('teste');
 });
