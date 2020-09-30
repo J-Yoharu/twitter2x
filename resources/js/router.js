@@ -1,21 +1,28 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import home from './views/Home'
-import message from './views/Chat'
-
+import chat from './views/Chat'
+import propaganda from './components/Propaganda'
+import messages from './components/chat/Messages.vue'
 Vue.use(Router)
 
 const router = new Router({
     mode:'hash',
     routes: [{
         path:'/',
-        redirect:'/home'
+        redirect:'/home',
     },{
         path:'/home',
-        component:home
+        components:{
+            default:home,
+            screen2:propaganda
+        }
     },{
         path:'/messages',
-        component:message
+        components:{
+            default:chat,
+            screen2:messages
+        }
     }]
 })
 router.beforeEach((to, from, next) => {

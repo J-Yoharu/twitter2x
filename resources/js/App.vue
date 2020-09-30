@@ -1,16 +1,15 @@
 <template>
-    <div class="row bg-light">
+    <div class="row bg-light m-0">
         <div class="col-md-3 d-flex justify-content-end p-0">
             <Navbar/>
         </div>
-        <div class="col">
+        <div class="col m-0">
             <keep-alive>
                 <router-view></router-view>
             </keep-alive>
         </div>
-        <div class="col-4">
-            <!-- What's Happening -->
-            O que estas acontecendo? 
+        <div class="col-5 m-0">
+            <router-view name='screen2'></router-view>
         </div>   
     </div>
 </template>
