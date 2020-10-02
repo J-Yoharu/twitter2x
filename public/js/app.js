@@ -2208,6 +2208,40 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({});
 
 /***/ }),
@@ -40672,14 +40706,131 @@ var staticRenderFns = [
     return _c(
       "div",
       {
-        staticClass: "bg-danger d-flex align-items-end",
+        staticClass: "bg-danger d-flex align-items-end flex-column p-3",
         staticStyle: { height: "100vh" }
       },
       [
+        _c("div", { staticClass: "w-100" }, [
+          _c("div", { staticClass: "d-flex align-items-center m-2" }, [
+            _c("div", {
+              staticClass: "rounded-circle bg-primary mr-3",
+              staticStyle: {
+                "max-width": "3rem",
+                "min-width": "3rem",
+                "max-height": "3rem",
+                "min-height": "3rem"
+              }
+            }),
+            _vm._v(" "),
+            _c("div", [
+              _c(
+                "span",
+                {
+                  staticClass:
+                    "rounded bg-primary text-justify p-1 d-inline-block",
+                  staticStyle: { "word-break": "break-all" }
+                },
+                [_vm._v("Tô bem?")]
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass:
+                "d-flex flex-row-reverse align-items-center text-center m-2"
+            },
+            [
+              _c("div", {
+                staticClass: "rounded-circle bg-primary ml-3",
+                staticStyle: {
+                  "max-width": "3rem",
+                  "min-width": "3rem",
+                  "max-height": "3rem",
+                  "min-height": "3rem"
+                }
+              }),
+              _vm._v(" "),
+              _c("div", [
+                _c(
+                  "span",
+                  {
+                    staticClass:
+                      "rounded bg-primary text-justify p-1 d-inline-block",
+                    staticStyle: { "word-break": "break-all" }
+                  },
+                  [
+                    _vm._v(
+                      "Olá  PORRAAAAA e com você pega no meeeeu hehehe quer ver quem é mais homem? sou exatamente eu heheh se você é homem o suficiente, vem pra tretaddddddddddddddddddddddddddddddddddddd?"
+                    )
+                  ]
+                )
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "d-flex align-items-center m-2" }, [
+            _c("div", {
+              staticClass: "rounded-circle bg-primary mr-3",
+              staticStyle: {
+                "max-width": "3rem",
+                "min-width": "3rem",
+                "max-height": "3rem",
+                "min-height": "3rem"
+              }
+            }),
+            _vm._v(" "),
+            _c("div", [
+              _c(
+                "span",
+                {
+                  staticClass:
+                    "rounded bg-primary text-justify p-1 d-inline-block",
+                  staticStyle: { "word-break": "break-all" }
+                },
+                [_vm._v("O quê você disse????")]
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass:
+                "d-flex flex-row-reverse align-items-center text-center m-2"
+            },
+            [
+              _c("div", {
+                staticClass: "rounded-circle bg-primary ml-3",
+                staticStyle: {
+                  "max-width": "3rem",
+                  "min-width": "3rem",
+                  "max-height": "3rem",
+                  "min-height": "3rem"
+                }
+              }),
+              _vm._v(" "),
+              _c("div", [
+                _c(
+                  "span",
+                  {
+                    staticClass:
+                      "rounded bg-primary text-justify p-1 d-inline-block",
+                    staticStyle: { "word-break": "break-all" }
+                  },
+                  [_vm._v("VÁ SE FODER, MAOEEEEE")]
+                )
+              ])
+            ]
+          )
+        ]),
+        _vm._v(" "),
         _c(
           "div",
           {
-            staticClass: "bg-primary w-100 d-flex align-items-center p-3",
+            staticClass:
+              "bg-primary w-100 d-flex align-items-center p-3 mt-auto",
             staticStyle: { "min-height": "3rem" }
           },
           [
