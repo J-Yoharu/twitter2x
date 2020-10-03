@@ -78,6 +78,10 @@ Route::prefix('chats')->group(function(){
     Route::get('/{id}/messages','ChatController@messages')->name('chat.messages');
 });
 
+Route::prefix('follows')->group(function(){
+    Route::get('/{id}','FollowController@show')->name('follow.show');
+});
+
 Route::get('/teste', function(){
    return view('teste');
 });
