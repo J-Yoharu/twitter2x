@@ -31,6 +31,18 @@ class ChatController extends Controller
             ->orderBy('messages.id')
             ->get();
             
-        return response()->json($messages);
+        return response()->json(['messages' => $messages]);
+    }
+
+    public function createMessage(Request $request,$id){
+            $message = new Message;
+            $message->chat_id = $id;
+            $message->message = $request->message;
+            $message->user_id = $request->user_id;
+            $message->save();
+            // event(new UserCreatedPost($post));
+            return response()->json($message);
+        
+
     }
 }

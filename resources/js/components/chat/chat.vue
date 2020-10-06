@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="d-flex align-items-start justify-content-start mt-3">
+        <div class="d-flex align-items-start justify-content-start mt-3" style="cursor:pointer" @click="sendChatId">
             
             <!-- Image -->
            
@@ -46,7 +46,13 @@ export default {
         return{
 
         }
-    }
+    },
+    methods:{
+        sendChatId(){
+            console.log("chamou o metodo")
+            this.$emit('sendChatId',this.chatData.id)
+        }
+  },
 }
 </script>
 

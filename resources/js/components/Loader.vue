@@ -1,9 +1,9 @@
 <template>
-    <div class="mt-4 w-100">
-        <div class="row d-flex justify-content-center">
+    <div class="mt-4 w-100 ml-0 mr-0 p-4">
+        <div class="row p-0 m-0 d-flex justify-content-center">
             {{text}}
         </div>
-        <div class="row d-flex justify-content-center">
+        <div class="row p-0 m-0 d-flex justify-content-center">
             <div class="loader"></div>
         </div>
     </div>

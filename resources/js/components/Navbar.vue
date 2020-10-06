@@ -116,7 +116,7 @@
                             </div>
 
                             <!-- Info -->
-                            <div class="col p-0 mt-3">
+                            <div class="col p-0 mt-3 d-none">
                                 <div class="row">
                                     <div class="col-md-auto p-0 ml-3">
                                         <span style="font-weight:bold; font-size:0.9rem">

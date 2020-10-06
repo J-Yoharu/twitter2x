@@ -76,6 +76,7 @@ Route::prefix('comments')->group(function(){
 Route::prefix('chats')->group(function(){
     Route::get('/user/{id}','ChatController@show')->name('chat.show');
     Route::get('/{id}/messages','ChatController@messages')->name('chat.messages');
+    Route::post('/{id}/messages','ChatController@createMessage');
 });
 
 Route::prefix('follows')->group(function(){

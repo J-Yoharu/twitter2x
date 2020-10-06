@@ -1,50 +1,73 @@
 <template>
-  <div class="bg-danger d-flex align-items-end flex-column" style="height:100vh">
-    <div class="w-100" style="overflow-y:scroll">
-
-      <Message v-for="(message,index) in messages" :key="index" :message="message"/>
-
+  <div style="overflow-x:hidden"> 
+    <div v-if="chatId == ''">
+      <h3>Você não selecionou nenhuma mensagem</h3>
     </div>
+    <div class="bg-white d-flex align-items-end flex-column" style="height:100vh" v-else>
+      <div  class="w-100" id="messageContainer" style="overflow-y:scroll">
+        <Loader :text="'Carregando mensagens'" v-if="loader == null"/>
 
-    <div class="bg-primary w-100 d-flex align-items-center p-3 mt-auto" style="min-height:3rem"> 
-        <div class="rounded-lg w-100 bg-light p-2 mr-2" style="outline:none;max-height:7rem;overflow-y:scroll" v-bind="message" contenteditable="true"> hegehe</div>
-      <i class="fa fa-2x fa-paper-plane" @click="sendMessage"></i>
+        <div v-else-if="messages.length == 0">Sem mensagens neste chat :(</div>
+
+        <Message v-else v-for="(message,index) in messages" :key="index" :message="message"/>
+
+      </div>
+
+      <div class="bg-primary w-100 d-flex align-items-center p-3 mt-auto" style="min-height:3rem"> 
+          <div class="rounded-lg w-100 bg-light p-2 mr-2" style="outline:none;max-height:7rem;overflow-y:scroll" id="message" contenteditable="true"></div>
+        <i class="fa fa-2x fa-paper-plane" @click="sendMessage"></i>
+      </div>
     </div>
+ 
 
   </div>
 </template>
 
 <script>
 import Message from './Message'
+import Loader from '../Loader'
 export default {
+  props:['chatId'],
+  components:{
+    Message,
+  },
   data(){
     return{
       messages:[],
-      message:''
+      message:'',
+      loader:null,
     }
   },
   methods:{
     async sendMessage(){
-      console.log("enviou hehe");
-      console.log(this.message)
-      // await axios.post(`http://twitter2x.test/chats`,{
-      //     post:this.postText,
-      //     user_id:this.$currentUser.id,
-      //     image_post:null,
-      // }).then((resp)=>{
-      //     this.postText=''
-      // })
+      let message = $('#message');
+      console.log(message)
+      await axios.post(`http://twitter2x.test/chats/${this.chatId}/messages`,{
+          message:message.text(),
+          user_id:this.$currentUser.id,
+      }).then((resp)=>{
+          message.text('');
+      })
+    },
+
+    async getMessages(){
+     await axios(`http://twitter2x.test/chats/${this.chatId}/messages`)
+        .then(resp =>{
+          this.messages = resp.data.messages;
+          this.loader = 'ok'
+        })
+          let scrollChat = document.getElementById("messageContainer")
+          scrollChat.scrollTo(0,scrollChat.offsetHeight)
     }
   },
-  components:{
-    Message,
+  watch:{
+    chatId(){
+      this.loader=null
+      this.messages= []
+      console.log("watch chat id")
+      this.chatId != null ? this.getMessages():false;
+    }
   },
-  async mounted(){
-      await axios(`http://twitter2x.test/chats/2/messages`)
-        .then(resp =>{
-          this.messages = resp.data;
-        });
-  }
 }
 </script>
 

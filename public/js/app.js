@@ -1939,6 +1939,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
  // var currentUser from appVue.blade.php
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.prototype.$currentUser = currentUser;
@@ -1946,6 +1951,11 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.prototype.$currentUser = currentUser;
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     Navbar: _components_Navbar__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  data: function data() {
+    return {
+      chatId: ''
+    };
   }
 });
 
@@ -2207,6 +2217,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Message__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Message */ "./resources/js/components/chat/Message.vue");
+/* harmony import */ var _Loader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Loader */ "./resources/js/components/Loader.vue");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -2229,12 +2240,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['chatId'],
+  components: {
+    Message: _Message__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
   data: function data() {
     return {
       messages: [],
-      message: ''
+      message: '',
+      loader: null
     };
   },
   methods: {
@@ -2242,51 +2268,64 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var message;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                console.log("enviou hehe");
-                console.log(_this.message); // await axios.post(`http://twitter2x.test/chats`,{
-                //     post:this.postText,
-                //     user_id:this.$currentUser.id,
-                //     image_post:null,
-                // }).then((resp)=>{
-                //     this.postText=''
-                // })
+                message = $('#message');
+                console.log(message);
+                _context.next = 4;
+                return axios.post("http://twitter2x.test/chats/".concat(_this.chatId, "/messages"), {
+                  message: message.text(),
+                  user_id: _this.$currentUser.id
+                }).then(function (resp) {
+                  message.text('');
+                });
 
-              case 2:
+              case 4:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee);
       }))();
+    },
+    getMessages: function getMessages() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var scrollChat;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return axios("http://twitter2x.test/chats/".concat(_this2.chatId, "/messages")).then(function (resp) {
+                  _this2.messages = resp.data.messages;
+                  _this2.loader = 'ok';
+                });
+
+              case 2:
+                scrollChat = document.getElementById("messageContainer");
+                scrollChat.scrollTo(0, scrollChat.offsetHeight);
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
     }
   },
-  components: {
-    Message: _Message__WEBPACK_IMPORTED_MODULE_1__["default"]
-  },
-  mounted: function mounted() {
-    var _this2 = this;
-
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              _context2.next = 2;
-              return axios("http://twitter2x.test/chats/2/messages").then(function (resp) {
-                _this2.messages = resp.data;
-              });
-
-            case 2:
-            case "end":
-              return _context2.stop();
-          }
-        }
-      }, _callee2);
-    }))();
+  watch: {
+    chatId: function chatId() {
+      this.loader = null;
+      this.messages = [];
+      console.log("watch chat id");
+      this.chatId != null ? this.getMessages() : false;
+    }
   }
 });
 
@@ -2346,6 +2385,12 @@ __webpack_require__.r(__webpack_exports__);
   props: ['chatData'],
   data: function data() {
     return {};
+  },
+  methods: {
+    sendChatId: function sendChatId() {
+      console.log("chamou o metodo");
+      this.$emit('sendChatId', this.chatData.id);
+    }
   }
 });
 
@@ -2985,6 +3030,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_chat_chat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/chat/chat */ "./resources/js/components/chat/chat.vue");
 /* harmony import */ var _components_chat_profile__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/chat/profile */ "./resources/js/components/chat/profile.vue");
+/* harmony import */ var _components_Loader__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/Loader */ "./resources/js/components/Loader.vue");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -3047,6 +3093,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3057,10 +3109,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
-      chats: '',
-      profiles: ''
+      chatId: '',
+      chats: [],
+      profiles: '',
+      loader: null
     };
   },
+  methods: {},
   mounted: function mounted() {
     var _this = this;
 
@@ -3081,18 +3136,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 5:
               profiles = _context.sent;
               _this.profiles = profiles.data.follows;
+              _this.loader = 'ok';
               chat = chat.data.chats;
               _this.chats = chat.map(function (chat) {
                 if (chat.username1 != _this.$currentUser.username) {
                   return {
+                    id: chat.id,
                     name: chat.name1,
                     username: chat.username1,
-                    chat_id: chat.chat_id,
                     image: chat.image1
                   };
                 }
 
                 return {
+                  id: chat.id,
                   name: chat.name2,
                   username: chat.username2,
                   chat_id: chat.chat_id,
@@ -3100,13 +3157,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 };
               });
 
-            case 9:
+            case 10:
             case "end":
               return _context.stop();
           }
         }
       }, _callee);
     }))();
+  },
+  watch: {
+    chatId: function chatId(depois, antes) {
+      console.log(antes);
+      console.log(depois);
+      this.$emit('chatId', this.chatId);
+    }
   }
 });
 
@@ -40285,27 +40349,53 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row bg-light m-0" }, [
-    _c(
-      "div",
-      { staticClass: "col-md-3 d-flex justify-content-end p-0" },
-      [_c("Navbar")],
-      1
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "col m-0" },
-      [_c("keep-alive", [_c("router-view")], 1)],
-      1
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "col-5 m-0" },
-      [_c("router-view", { attrs: { name: "screen2" } })],
-      1
-    )
+  return _c("div", { staticClass: "container p-0" }, [
+    _c("div", { staticClass: "row bg-light m-0" }, [
+      _c(
+        "div",
+        { staticClass: "col-md-2 d-flex justify-content-end p-0" },
+        [_c("Navbar")],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "col  m-0" },
+        [
+          _c(
+            "keep-alive",
+            [
+              _c("router-view", {
+                on: {
+                  chatId: function($event) {
+                    _vm.chatId = $event
+                  }
+                }
+              })
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "col-md-5 m-0" },
+        [
+          _c(
+            "keep-alive",
+            [
+              _c("router-view", {
+                attrs: { chatId: _vm.chatId, name: "screen2" }
+              })
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ])
   ])
 }
 var staticRenderFns = []
@@ -40330,8 +40420,8 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "mt-4 w-100" }, [
-    _c("div", { staticClass: "row d-flex justify-content-center" }, [
+  return _c("div", { staticClass: "mt-4 w-100 ml-0 mr-0 p-4" }, [
+    _c("div", { staticClass: "row p-0 m-0 d-flex justify-content-center" }, [
       _vm._v("\n        " + _vm._s(_vm.text) + "\n    ")
     ]),
     _vm._v(" "),
@@ -40343,9 +40433,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row d-flex justify-content-center" }, [
-      _c("div", { staticClass: "loader" })
-    ])
+    return _c(
+      "div",
+      { staticClass: "row p-0 m-0 d-flex justify-content-center" },
+      [_c("div", { staticClass: "loader" })]
+    )
   }
 ]
 render._withStripped = true
@@ -40797,7 +40889,7 @@ var render = function() {
                           "col-md-auto p-0 m-0 mr-1 d-flex align-items-center"
                       }),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col p-0 mt-3" }, [
+                      _c("div", { staticClass: "col p-0 mt-3 d-none" }, [
                         _c("div", { staticClass: "row" }, [
                           _vm._m(3),
                           _vm._v(" "),
@@ -41038,56 +41130,65 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {
-      staticClass: "bg-danger d-flex align-items-end flex-column",
-      staticStyle: { height: "100vh" }
-    },
-    [
-      _c(
-        "div",
-        { staticClass: "w-100", staticStyle: { "overflow-y": "scroll" } },
-        _vm._l(_vm.messages, function(message, index) {
-          return _c("Message", { key: index, attrs: { message: message } })
-        }),
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "bg-primary w-100 d-flex align-items-center p-3 mt-auto",
-          staticStyle: { "min-height": "3rem" }
-        },
-        [
-          _c(
-            "div",
-            _vm._b(
-              {
-                staticClass: "rounded-lg w-100 bg-light p-2 mr-2",
-                staticStyle: {
-                  outline: "none",
-                  "max-height": "7rem",
-                  "overflow-y": "scroll"
-                },
-                attrs: { contenteditable: "true" }
-              },
+  return _c("div", { staticStyle: { "overflow-x": "hidden" } }, [
+    _vm.chatId == ""
+      ? _c("div", [_c("h3", [_vm._v("Você não selecionou nenhuma mensagem")])])
+      : _c(
+          "div",
+          {
+            staticClass: "bg-white d-flex align-items-end flex-column",
+            staticStyle: { height: "100vh" }
+          },
+          [
+            _c(
               "div",
-              _vm.message,
-              false
+              {
+                staticClass: "w-100",
+                staticStyle: { "overflow-y": "scroll" },
+                attrs: { id: "messageContainer" }
+              },
+              [
+                _vm.loader == null
+                  ? _c("Loader", { attrs: { text: "Carregando mensagens" } })
+                  : _vm.messages.length == 0
+                  ? _c("div", [_vm._v("Sem mensagens neste chat :(")])
+                  : _vm._l(_vm.messages, function(message, index) {
+                      return _c("Message", {
+                        key: index,
+                        attrs: { message: message }
+                      })
+                    })
+              ],
+              2
             ),
-            [_vm._v(" hegehe")]
-          ),
-          _vm._v(" "),
-          _c("i", {
-            staticClass: "fa fa-2x fa-paper-plane",
-            on: { click: _vm.sendMessage }
-          })
-        ]
-      )
-    ]
-  )
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass:
+                  "bg-primary w-100 d-flex align-items-center p-3 mt-auto",
+                staticStyle: { "min-height": "3rem" }
+              },
+              [
+                _c("div", {
+                  staticClass: "rounded-lg w-100 bg-light p-2 mr-2",
+                  staticStyle: {
+                    outline: "none",
+                    "max-height": "7rem",
+                    "overflow-y": "scroll"
+                  },
+                  attrs: { id: "message", contenteditable: "true" }
+                }),
+                _vm._v(" "),
+                _c("i", {
+                  staticClass: "fa fa-2x fa-paper-plane",
+                  on: { click: _vm.sendMessage }
+                })
+              ]
+            )
+          ]
+        )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -41114,7 +41215,11 @@ var render = function() {
   return _c("div", [
     _c(
       "div",
-      { staticClass: "d-flex align-items-start justify-content-start mt-3" },
+      {
+        staticClass: "d-flex align-items-start justify-content-start mt-3",
+        staticStyle: { cursor: "pointer" },
+        on: { click: _vm.sendChatId }
+      },
       [
         _c("div", { staticClass: "col-md-auto p-0 m-0 mr-1" }, [
           _c("img", {
@@ -42145,7 +42250,13 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm._m(0),
+      _c("div", { staticClass: "row mt-3" }, [
+        _c("div", { staticClass: "col-md-auto d-flex align-items-center" }, [
+          _c("h5", [_vm._v("Messages " + _vm._s(this.chatId))])
+        ]),
+        _vm._v(" "),
+        _vm._m(0)
+      ]),
       _vm._v(" "),
       _c("hr", { staticClass: "mt-2" }),
       _vm._v(" "),
@@ -42153,9 +42264,21 @@ var render = function() {
       _vm._v(" "),
       _c("hr"),
       _vm._v(" "),
-      _vm._l(_vm.chats, function(chat, index) {
-        return _c("chat", { key: index, attrs: { chatData: chat } })
-      }),
+      _vm.loader == null
+        ? _c("Loader", { attrs: { text: "Carregando suas conversas..." } })
+        : _vm.chats.length == 0
+        ? _c("div", [_vm._v("Você ainda não iniciou um chat com ninguém :/")])
+        : _vm._l(_vm.chats, function(chat, index) {
+            return _c("chat", {
+              key: index,
+              attrs: { chatData: chat },
+              on: {
+                sendChatId: function($event) {
+                  _vm.chatId = $event
+                }
+              }
+            })
+          }),
       _vm._v(" "),
       _c(
         "div",
@@ -42207,26 +42330,20 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row mt-3" }, [
-      _c("div", { staticClass: "col-md-auto d-flex align-items-center" }, [
-        _c("h5", [_vm._v("Messages")])
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "col d-flex justify-content-end align-items-center" },
-        [
-          _c("span", {
-            staticClass: "fa fa-envelope text-primary",
-            staticStyle: { "font-size": "1.5rem" },
-            attrs: {
-              "data-toggle": "modal",
-              "data-target": "#exampleModalCenter"
-            }
-          })
-        ]
-      )
-    ])
+    return _c(
+      "div",
+      { staticClass: "col d-flex justify-content-end align-items-center" },
+      [
+        _c("span", {
+          staticClass: "fa fa-envelope text-primary",
+          staticStyle: { "font-size": "1.5rem" },
+          attrs: {
+            "data-toggle": "modal",
+            "data-target": "#exampleModalCenter"
+          }
+        })
+      ]
+    )
   },
   function() {
     var _vm = this
