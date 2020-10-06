@@ -2233,31 +2233,59 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      messages: []
+      messages: [],
+      message: ''
     };
+  },
+  methods: {
+    sendMessage: function sendMessage() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                console.log("enviou hehe");
+                console.log(_this.message); // await axios.post(`http://twitter2x.test/chats`,{
+                //     post:this.postText,
+                //     user_id:this.$currentUser.id,
+                //     image_post:null,
+                // }).then((resp)=>{
+                //     this.postText=''
+                // })
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    }
   },
   components: {
     Message: _Message__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   mounted: function mounted() {
-    var _this = this;
+    var _this2 = this;
 
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
         while (1) {
-          switch (_context.prev = _context.next) {
+          switch (_context2.prev = _context2.next) {
             case 0:
-              _context.next = 2;
+              _context2.next = 2;
               return axios("http://twitter2x.test/chats/2/messages").then(function (resp) {
-                _this.messages = resp.data;
+                _this2.messages = resp.data;
               });
 
             case 2:
             case "end":
-              return _context.stop();
+              return _context2.stop();
           }
         }
-      }, _callee);
+      }, _callee2);
     }))();
   }
 });
@@ -41026,41 +41054,42 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _vm._m(0)
+      _c(
+        "div",
+        {
+          staticClass: "bg-primary w-100 d-flex align-items-center p-3 mt-auto",
+          staticStyle: { "min-height": "3rem" }
+        },
+        [
+          _c(
+            "div",
+            _vm._b(
+              {
+                staticClass: "rounded-lg w-100 bg-light p-2 mr-2",
+                staticStyle: {
+                  outline: "none",
+                  "max-height": "7rem",
+                  "overflow-y": "scroll"
+                },
+                attrs: { contenteditable: "true" }
+              },
+              "div",
+              _vm.message,
+              false
+            ),
+            [_vm._v(" hegehe")]
+          ),
+          _vm._v(" "),
+          _c("i", {
+            staticClass: "fa fa-2x fa-paper-plane",
+            on: { click: _vm.sendMessage }
+          })
+        ]
+      )
     ]
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "bg-primary w-100 d-flex align-items-center p-3 mt-auto",
-        staticStyle: { "min-height": "3rem" }
-      },
-      [
-        _c(
-          "div",
-          {
-            staticClass: "rounded-lg w-100 bg-light p-2 mr-2",
-            staticStyle: {
-              outline: "none",
-              "max-height": "7rem",
-              "overflow-y": "scroll"
-            },
-            attrs: { contenteditable: "true" }
-          },
-          [_vm._v(" hegehe")]
-        ),
-        _vm._v(" "),
-        _c("i", { staticClass: "fa fa-2x fa-paper-plane" })
-      ]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

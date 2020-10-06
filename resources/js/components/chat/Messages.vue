@@ -7,8 +7,8 @@
     </div>
 
     <div class="bg-primary w-100 d-flex align-items-center p-3 mt-auto" style="min-height:3rem"> 
-        <div class="rounded-lg w-100 bg-light p-2 mr-2" style="outline:none;max-height:7rem;overflow-y:scroll" contenteditable="true"> hegehe</div>
-      <i class="fa fa-2x fa-paper-plane"></i>
+        <div class="rounded-lg w-100 bg-light p-2 mr-2" style="outline:none;max-height:7rem;overflow-y:scroll" v-bind="message" contenteditable="true"> hegehe</div>
+      <i class="fa fa-2x fa-paper-plane" @click="sendMessage"></i>
     </div>
 
   </div>
@@ -20,6 +20,20 @@ export default {
   data(){
     return{
       messages:[],
+      message:''
+    }
+  },
+  methods:{
+    async sendMessage(){
+      console.log("enviou hehe");
+      console.log(this.message)
+      // await axios.post(`http://twitter2x.test/chats`,{
+      //     post:this.postText,
+      //     user_id:this.$currentUser.id,
+      //     image_post:null,
+      // }).then((resp)=>{
+      //     this.postText=''
+      // })
     }
   },
   components:{
