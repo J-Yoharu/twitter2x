@@ -2260,7 +2260,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       messages: [],
       message: '',
-      loader: null
+      loader: null,
+      userReceived: ''
     };
   },
   methods: {
@@ -2295,7 +2296,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var scrollChat;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -2304,19 +2304,50 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return axios("http://twitter2x.test/chats/".concat(_this2.chatId, "/messages")).then(function (resp) {
                   _this2.messages = resp.data.messages;
                   _this2.loader = 'ok';
+                  _this2.userReceived = _this2.messages.find(function (message) {
+                    return message.userId != _this2.$currentUser.id;
+                  });
                 });
 
               case 2:
-                scrollChat = document.getElementById("messageContainer");
-                scrollChat.scrollTo(0, scrollChat.offsetHeight);
+                _this2.scrollBottom();
 
-              case 4:
+              case 3:
               case "end":
                 return _context2.stop();
             }
           }
         }, _callee2);
       }))();
+    },
+    scrollBottom: function scrollBottom() {
+      setTimeout(function () {
+        var scrollChat = document.getElementById("messageContainer");
+        scrollChat.scrollTo(0, scrollChat.clientHeight + scrollChat.scrollHeight + 1000);
+      }, 200);
+    },
+    renderMessage: function renderMessage(data) {
+      var message;
+
+      if (data.user_id == this.userReceived.userId) {
+        message = {
+          id: data.id,
+          userId: data.user_id,
+          userName: this.userReceived.userName,
+          userImage: this.userReceived.userImage,
+          message: data.message
+        };
+      } else {
+        message = {
+          id: data.id,
+          userId: data.user_id,
+          userName: this.$currentUser.name,
+          userImage: this.$currentUser.image,
+          message: data.message
+        };
+      }
+
+      this.messages.push(message);
     }
   },
   watch: {
@@ -2326,6 +2357,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       console.log("watch chat id");
       this.chatId != null ? this.getMessages() : false;
     }
+  },
+  mounted: function mounted() {
+    var _this3 = this;
+
+    var channelMessage = pusher.subscribe('Messages');
+    channelMessage.bind('sendMessage', function (data) {
+      console.log(data);
+
+      _this3.renderMessage(data.message);
+
+      _this3.scrollBottom();
+    });
   }
 });
 
@@ -41099,8 +41142,11 @@ var render = function() {
         _c(
           "span",
           {
-            staticClass: "rounded bg-primary text-justify p-1 d-inline-block",
-            staticStyle: { "word-break": "break-all" }
+            staticClass: "rounded text-justify p-1 d-inline-block",
+            staticStyle: {
+              "word-break": "break-all",
+              "background-color": "#1da1f2"
+            }
           },
           [_vm._v(" " + _vm._s(_vm.message.message) + " ")]
         )
@@ -41166,8 +41212,8 @@ var render = function() {
               "div",
               {
                 staticClass:
-                  "bg-primary w-100 d-flex align-items-center p-3 mt-auto",
-                staticStyle: { "min-height": "3rem" }
+                  "w-100 d-flex align-items-center p-3 mt-auto rounded",
+                staticStyle: { "background-color": "#1da1f2" }
               },
               [
                 _c("div", {

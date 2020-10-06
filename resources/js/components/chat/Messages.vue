@@ -13,7 +13,7 @@
 
       </div>
 
-      <div class="bg-primary w-100 d-flex align-items-center p-3 mt-auto" style="min-height:3rem"> 
+      <div class="w-100 d-flex align-items-center p-3 mt-auto rounded" style="background-color:#1da1f2"> 
           <div class="rounded-lg w-100 bg-light p-2 mr-2" style="outline:none;max-height:7rem;overflow-y:scroll" id="message" contenteditable="true"></div>
         <i class="fa fa-2x fa-paper-plane" @click="sendMessage"></i>
       </div>
@@ -36,6 +36,7 @@ export default {
       messages:[],
       message:'',
       loader:null,
+      userReceived:''
     }
   },
   methods:{
@@ -55,10 +56,43 @@ export default {
         .then(resp =>{
           this.messages = resp.data.messages;
           this.loader = 'ok'
+          this.userReceived = this.messages.find((message) =>{
+                return message.userId != this.$currentUser.id
+          });
+
         })
-          let scrollChat = document.getElementById("messageContainer")
-          scrollChat.scrollTo(0,scrollChat.offsetHeight)
-    }
+        this.scrollBottom();
+    },
+    scrollBottom(){
+      setTimeout(()=>{
+      let scrollChat = document.getElementById("messageContainer")
+      scrollChat.scrollTo(0,scrollChat.clientHeight+scrollChat.scrollHeight+1000)
+      },200)
+    },
+    renderMessage(data){
+
+          let message
+
+          if(data.user_id == this.userReceived.userId){
+              message = {
+                id: data.id,
+                userId: data.user_id,
+                userName: this.userReceived.userName,
+                userImage: this.userReceived.userImage,
+                message: data.message
+              }
+          }
+          else{
+            message = {
+                  id: data.id,
+                  userId: data.user_id,
+                  userName: this.$currentUser.name,
+                  userImage: this.$currentUser.image,
+                  message: data.message
+                }
+          }
+          this.messages.push(message)
+        }
   },
   watch:{
     chatId(){
@@ -67,7 +101,14 @@ export default {
       console.log("watch chat id")
       this.chatId != null ? this.getMessages():false;
     }
-  },
+  },mounted(){
+    let channelMessage = pusher.subscribe('Messages');
+    channelMessage.bind('sendMessage',(data)=>{
+        console.log(data);
+        this.renderMessage(data.message);
+        this.scrollBottom();
+    });
+  }
 }
 </script>
 

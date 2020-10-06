@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Chat;
 use App\Models\Message;
 use App\Models\User_chats;
+use App\Events\Chat\UserSendMessage;
 use Illuminate\Support\Facades\DB;
 class ChatController extends Controller
 {
@@ -40,7 +41,7 @@ class ChatController extends Controller
             $message->message = $request->message;
             $message->user_id = $request->user_id;
             $message->save();
-            // event(new UserCreatedPost($post));
+            event(new UserSendMessage($message));
             return response()->json($message);
         
 
